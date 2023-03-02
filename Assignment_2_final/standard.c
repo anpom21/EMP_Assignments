@@ -39,22 +39,22 @@
 
 /*****************************   Variables   *******************************/
 
-INT16U timer = TIME_500_MSEC;
+INT16U timer = TIME_1_SEC;
 INT8U light_state = LS_RED; // initial state is red
 
 /*****************************   Functions   *******************************/
 
-//void standard(void)
+void standard(void)
 /*****************************************************************************
 *   Input    :
 *   Output   :
 *   Function : The super loop.
 ******************************************************************************/
-/*
+
 {
     if( ! --timer )
         {
-          timer        = TIME_500_MSEC;
+          timer        = TIME_1_SEC;
           switch (light_state){
           case LS_RED:
               light_state = LS_RED_YELLOW;
@@ -75,6 +75,6 @@ INT8U light_state = LS_RED; // initial state is red
           }
         }
 }
-*/
+
 
 /****************************** End Of Module *******************************/

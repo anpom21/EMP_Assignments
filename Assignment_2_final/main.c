@@ -29,7 +29,7 @@
 #include "button.h"
 #include "LED.h"
 #include "alive_led.h"
-//#include "traffic_light.h"
+#include "traffic_light.h"
 #include "gpio.h"
 #include "standard.h"
 
@@ -71,12 +71,12 @@ int main(void)
 
     alive_led();
 
-    standard();
+    //standard();
 
     // Application part of the super loop.
     // -----------------------------------
-    //event = select_button();
-    //traffic_light(event);
+    event = select_button();
+    traffic_light(event);
   }
   return( 0 );
 }
