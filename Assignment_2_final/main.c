@@ -30,12 +30,18 @@
 #include "norway.h"
 #include "emergency.h"
 #include "LED.h"
+<<<<<<< HEAD
+#include "alive_led.h"
+=======
 >>>>>>> 6d51886ff24d4081056edc4009c1ccbadfff9f33:Assignment_2_final/main.c
+>>>>>>> 241ebd631a88a54a1f87aa377fdc79d195c43a25
 
 
 #include "gpio.h"
 /*****************************    Defines    *******************************/
-
+#define RED_LED         0x02
+#define YELLOW_LED      0x04
+#define GREEN_LED       0x06
 
 /*****************************   Constants   *******************************/
 
@@ -52,10 +58,6 @@ int main(void)
 *   Function : The super loop.
 ******************************************************************************/
 {
-  INT8U event;
-  INT8U counter_value;
-  INT8U alive_timer = TIME_500_MSEC;
-
   init_systick();
   init_gpio();
 
@@ -72,13 +74,9 @@ int main(void)
     // The following will be executed every 5ms
     ticks--;
 
+    alive_led();
 
 
-    if( ! --alive_timer )
-    {
-      alive_timer        = TIME_500_MSEC;
-      GPIO_PORTD_DATA_R ^= 0x40;
-    }
 
 
     // Application part of the super loop.
@@ -103,8 +101,13 @@ int main(void)
     }
 =======
 
+<<<<<<< HEAD
+    tl_norway();
+
+=======
     tl_emergency();
 >>>>>>> 6d51886ff24d4081056edc4009c1ccbadfff9f33:Assignment_2_final/main.c
+>>>>>>> 241ebd631a88a54a1f87aa377fdc79d195c43a25
   }
   return( 0 );
 }

@@ -17,7 +17,6 @@
 *
 *****************************************************************************/
 
-
 /***************************** Include files *******************************/
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
@@ -28,8 +27,6 @@
 /*****************************    Defines    *******************************/
 
 
-#define YELLOW_LED          0x04
-#define RED_AND_GREEN_LED   0x0A
 /*****************************   Constants   *******************************/
 
 /*****************************   Variables   *******************************/
@@ -37,27 +34,20 @@
 /*****************************   Functions   *******************************/
 
 
-void tl_norway(void)
+void alive_led(void)
 /*****************************************************************************
 *   Input    :
 *   Output   :
-*   Function : Activate the norway traficlight sequence - yellow light flashing
-*              once every second
+*   Function : Red LED flashes once every second
 ******************************************************************************/
 {
-  // Initialize light timer
-  static INT16U  light_timer = TIME_1_SEC;
-
-  // Whenever timer runs out, toggle yellow light
-  if( ! --light_timer )
-  {
-      light_timer        = TIME_1_SEC;
-
-      // Turn off green and red LED
-      GPIO_PORTF_DATA_R |= RED_AND_GREEN_LED;
-      // Toggle yellow LED
-      GPIO_PORTF_DATA_R ^= YELLOW_LED;
-  }
+    static INT8U alive_timer = TIME_500_MSEC;
+    if( ! --alive_timer )
+    {
+      alive_timer        = TIME_500_MSEC;
+      // Toggle PORT D LED
+      GPIO_PORTD_DATA_R ^= 0x40;
+    }
 
 }
 
