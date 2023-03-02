@@ -26,7 +26,6 @@
 #include "LED.h"
 /*****************************    Defines    *******************************/
 
-
 /*****************************   Constants   *******************************/
 
 /*****************************   Variables   *******************************/
@@ -42,8 +41,11 @@ void alive_led(void)
 ******************************************************************************/
 {
     static INT8U alive_timer = TIME_500_MSEC;
+
+    // Decrement timer and check if it has reached 0
     if( ! --alive_timer )
     {
+      // Reset time
       alive_timer        = TIME_500_MSEC;
       // Toggle PORT D LED
       GPIO_PORTD_DATA_R ^= 0x40;

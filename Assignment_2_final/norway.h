@@ -32,7 +32,7 @@ void tl_norway(void);
 /*****************************************************************************
 *   Input    :
 *   Output   :
-*   Function : Activate the Norway traficlight sequence - yellow light flashing
+*   Function : Activate the Norway traffic light sequence - yellow light flashing
 *              once every second
 ******************************************************************************/
 
