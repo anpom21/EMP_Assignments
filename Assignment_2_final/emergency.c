@@ -27,6 +27,8 @@
 #include "LED.h"
 /*****************************    Defines    *******************************/
 
+#define LED_YELLOW_AND_GREEN  0x0C
+
 /*****************************   Constants   *******************************/
 
 /*****************************   Variables   *******************************/
@@ -38,11 +40,13 @@ void tl_emergency(void)
 /*****************************************************************************
 *   Input    :
 *   Output   :
-*   Function : Activate the emergency traficlight - turn on only the red LED
+*   Function : Activate the emergency traffic light - turn on only the red LED
 ******************************************************************************/
 {
-  // Turn off yellow
-  //GPIO_PORTF_DATA_R |= LED_YELLOW | LED_GREEN;
+    // Turn off yellow and green LED
+    GPIO_PORTF_DATA_R |= LED_YELLOW_AND_GREEN;
+
+    // Turn on red LED
     LED_EMP_expansion(LED_RED);
 }
 

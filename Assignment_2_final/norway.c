@@ -41,20 +41,22 @@ void tl_norway(void)
 /*****************************************************************************
 *   Input    :
 *   Output   :
-*   Function : Activate the norway traficlight sequence - yellow light flashing
+*   Function : Activate the Norway traffic light sequence - yellow light flashing
 *              once every second
 ******************************************************************************/
 {
   // Initialize light timer
   static INT16U  light_timer = TIME_1_SEC;
 
-  // Whenever timer runs out, toggle yellow light
+  // Check if timer has run out
   if( ! --light_timer )
   {
+      // Reset timer
       light_timer        = TIME_1_SEC;
 
       // Turn off green and red LED
       GPIO_PORTF_DATA_R |= RED_AND_GREEN_LED;
+
       // Toggle yellow LED
       GPIO_PORTF_DATA_R ^= YELLOW_LED;
   }
