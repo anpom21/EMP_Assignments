@@ -38,7 +38,7 @@ void traffic_light(INT8U event)
     switch (tl_state)       //Calls LED functions based on tl_state
     {
     case TL_STANDARD:
-        standard();
+        //standard();
         break;
     case TL_NORWAY:
         tl_norway();
@@ -59,7 +59,7 @@ void traffic_light(INT8U event)
         tl_state = TL_EMERGENCY;
         break;
     case BE_LONG_PUSH:
-        tl_sate = TL_STANDARD;
+        tl_state = TL_STANDARD;
         break;
     default:
         break;

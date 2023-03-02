@@ -26,7 +26,7 @@
 #include "emp_type.h"
 #include "event.h"
 #include "emergency.h"
-#include "standard.h"
+//#include "standard.h"
 /*****************************    Defines    *******************************/
 #define TL_STANDARD     0
 #define TL_NORWAY       1

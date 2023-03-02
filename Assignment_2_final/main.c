@@ -26,6 +26,7 @@
 #include "timers.h"
 #include "norway.h"
 #include "emergency.h"
+#include "button.h"
 #include "LED.h"
 #include "alive_led.h"
 #include "traffic_light.h"
@@ -52,7 +53,7 @@ int main(void)
 {
   init_systick();
   init_gpio();
-
+  INT8U event;
 
 
 
