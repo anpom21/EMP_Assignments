@@ -2,37 +2,44 @@
 * University of Southern Denmark
 * Embedded C Programming (ECP)
 *
-* MODULENAME.: timer.h
+* MODULENAME.: event.h
 *
-* PROJECT....: ECP
+* PROJECT....: Assignment 2 - Traffic light
 *
-* DESCRIPTION: Test.
+* DESCRIPTION: Defines button event states.
 *
 * Change Log:
 ******************************************************************************
-* Date    Id    Change
-* YYMMDD
+* Date  Id  Change
+* 02-02-2023
 * --------------------
-* 090215  MoH    Module created.
+* 02-03-2023  MoH   Module created.
 *
 *****************************************************************************/
 
-#ifndef SWTIMERS_H_
-#define SWTIMERS_H_
+
+#ifndef EVENT_H_
+#define EVENT_H_
+
+
 
 /***************************** Include files *******************************/
 
 /*****************************    Defines    *******************************/
-#define TIM_100_MSEC   20
-#define TIM_200_MSEC   40
-#define TIM_500_MSEC  100
-#define TIM_1_SEC     200
-#define TIM_2_SEC     400
+//initial event
+#define GE_NO_EVENT     0
 
+//Button events
+#define BE_SINGLE_PUSH  1
+#define BE_BOUBLE_PUSH  2
+#define BE_LONG_PUSH    3
+
+//timer event
+#define TE_TIMEOUT      4
 /*****************************   Constants   *******************************/
 
 /*****************************   Functions   *******************************/
 
-
 /****************************** End Of Module *******************************/
-#endif /*SWTIMERS_H_*/
+
+#endif /* EVENT_H_ */
