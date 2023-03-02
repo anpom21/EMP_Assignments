@@ -2,11 +2,12 @@
 * University of Southern Denmark
 * Embedded C Programming (ECP)
 *
-* MODULENAME.: timers.h
+* MODULENAME.:button.h
 *
 * PROJECT....: Assignment 2 - Traffic light
 *
-* DESCRIPTION: Defines useful timers
+* DESCRIPTION: listens to button pushes and sets the event value
+*           to match correspondingly.
 *
 * Change Log:
 ******************************************************************************
@@ -18,22 +19,28 @@
 *****************************************************************************/
 
 
-#ifndef TIMERS_H_
-#define TIMERS_H_
+#ifndef BUTTON_H_
+#define BUTTON_H_
+
 
 /***************************** Include files *******************************/
 
 /*****************************    Defines    *******************************/
-#define TIME_100_MSEC   20
-#define TIME_200_MSEC   40
-#define TIME_500_MSEC  100
-#define TIME_1_SEC     200
-#define TIME_2_SEC     400
 
 /*****************************   Constants   *******************************/
 
 /*****************************   Functions   *******************************/
 
+INT8U select_button(void);
+/*****************************************************************************
+*   Input    : -
+*   Output   : Button Event
+*   Function : Listens to button
+******************************************************************************/
+
 
 /****************************** End Of Module *******************************/
-#endif /*TIMERS_H_*/
+
+
+
+#endif /* BUTTON_H_ */
