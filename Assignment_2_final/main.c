@@ -28,8 +28,10 @@
 #include "emergency.h"
 #include "LED.h"
 #include "alive_led.h"
-#include "traffic_light.h"
+//#include "traffic_light.h"
 #include "gpio.h"
+#include "standard.h"
+
 /*****************************    Defines    *******************************/
 #define RED_LED         0x02
 #define YELLOW_LED      0x04
@@ -68,10 +70,12 @@ int main(void)
 
     alive_led();
 
+    standard();
+
     // Application part of the super loop.
     // -----------------------------------
-    event = select_button();
-    traffic_light(event);
+    //event = select_button();
+    //traffic_light(event);
   }
   return( 0 );
 }

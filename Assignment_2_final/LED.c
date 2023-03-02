@@ -57,9 +57,8 @@ void LED_EMP_expansion(INT8U LED_color)
 *   Function : --
 ******************************************************************************/
 {
-    LED_color = ~(LED_color);
-    GPIO_PORTF_DATA_R &= ~(0b111 << START_BIT_LED); //Clear the LEDs
-    GPIO_PORTF_DATA_R |= (LED_color) << START_BIT_LED; //Set the desired color
+    GPIO_PORTF_DATA_R |= (0b111 << START_BIT_LED); //Clear the LEDs
+    GPIO_PORTF_DATA_R &= ~(LED_color) << START_BIT_LED; //Set the desired color
 }
 
 void LED_EMP_expansion_2color(INT8U LED_color, INT8U LED_color_2)
@@ -69,10 +68,9 @@ void LED_EMP_expansion_2color(INT8U LED_color, INT8U LED_color_2)
 *   Function : --
 ******************************************************************************/
 {
-    LED_color = ~(LED_color);
-    GPIO_PORTF_DATA_R &= ~(0b111 << START_BIT_LED); //Clear the LEDs
-    GPIO_PORTF_DATA_R |= (LED_color) << START_BIT_LED; //Set the desired color
-    GPIO_PORTF_DATA_R |= (LED_color_2) << START_BIT_LED; //Set the desired color
+    GPIO_PORTF_DATA_R |= (0b111 << START_BIT_LED); //Clear the LEDs
+    GPIO_PORTF_DATA_R &= ~(LED_color) << START_BIT_LED; //Set the desired color
+    GPIO_PORTF_DATA_R &= ~(LED_color_2) << START_BIT_LED; //Set the desired color
 }
 
 
@@ -85,6 +83,6 @@ void LED_toggle(void)
 {
     static previous_color;
     previous_color = GPIO_PORTF_DATA_R;
-    GPIO_PORTF_DATA_ = ~(previous_color);
+    GPIO_PORTF_DATA_R = ~(previous_color);
 }
 /****************************** End Of Module *******************************/

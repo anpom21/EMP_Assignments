@@ -39,7 +39,7 @@
 
 /*****************************   Variables   *******************************/
 
-INT16U timer = TIM_500_MSEC
+INT16U timer = TIME_500_MSEC;
 INT8U light_state = LS_RED; // initial state is red
 
 /*****************************   Functions   *******************************/
@@ -53,11 +53,11 @@ void standard(void)
 {
     if( ! --timer )
         {
-          timer        = TIM_500_MSEC;
+          timer        = TIME_500_MSEC;
           switch (light_state){
           case LS_RED:
               light_state = LS_RED_YELLOW;
-              LED_EMP_expansion(LED_RED, LED_YELLOW);
+              LED_EMP_expansion_2color(LED_RED, LED_YELLOW);
               break;
           case LS_RED_YELLOW:
               light_state = LS_GREEN;
@@ -68,8 +68,8 @@ void standard(void)
               LED_EMP_expansion(LED_YELLOW);
               break;
           case LS_YELLOW:
-              light_state = LS_GREEN;
-              LED_EMP_expansion(LED_GREEN);
+              light_state = LS_RED;
+              LED_EMP_expansion(LED_RED);
               break;
           }
         }

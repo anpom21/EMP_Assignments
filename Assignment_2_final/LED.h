@@ -31,14 +31,11 @@ LED_WHITE
 /***************************** Include files *******************************/
 
 /*****************************    Defines    *******************************/
-#define LED_NO_COLOR    0
-#define LED_GREEN       4
-#define LED_BLUE        2
-#define LED_CYAN        6
-#define LED_RED         1
-#define LED_YELLOW      5
-#define LED_MAGENTA     3
-#define LED_WHITE       7
+#define LED_NO_COLOR 0
+#define LED_GREEN 0b100
+#define LED_RED 0b001
+#define LED_YELLOW 0b010
+
 
 /*****************************   Constants   *******************************/
 
@@ -58,6 +55,19 @@ void LED_EMP_expansion(INT8U LED_color);
 *   Function : --
 ******************************************************************************/
 
+void LED_EMP_expansion_2color(INT8U LED_color, INT8U LED_color_2);
+/*****************************************************************************
+*   Input    : Desired colors as seen under defines
+*   Output   : Sets the desired colors on the EMP expansion board
+*   Function : --
+******************************************************************************/
+
+void LED_toggle(void);
+/*****************************************************************************
+*   Input    : ---
+*   Output   : ---
+*   Function : Toggles the LED
+******************************************************************************/
 
 /****************************** End Of Module *******************************/
 #endif /* LED_H_ */
