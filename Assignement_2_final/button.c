@@ -51,9 +51,9 @@ INT8U select_button(void)
     static INT8U button_event = GE_NO_EVENT;
 
     switch(button_state) {
-        case BS_IDLE:
+        case BS_IDLE:                               //Idle button state
             if(button_pushed()) {
-                button_state = BS_FIRST_PUSH;
+                button_state = BS_FIRST_PUSH;       //Jump to
                 button_timer = TIME_2_SEC;
             }
             break;

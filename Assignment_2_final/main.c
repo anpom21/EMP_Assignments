@@ -22,10 +22,15 @@
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
 #include "systick.h"
+<<<<<<< HEAD:Assignement_2_final/main.c
+#include "event.h"
+#include "timers.h"
+=======
 #include "timers.h"
 #include "norway.h"
 #include "emergency.h"
 #include "LED.h"
+>>>>>>> 6d51886ff24d4081056edc4009c1ccbadfff9f33:Assignment_2_final/main.c
 
 
 #include "gpio.h"
@@ -78,8 +83,28 @@ int main(void)
 
     // Application part of the super loop.
     // -----------------------------------
+<<<<<<< HEAD:Assignement_2_final/main.c
+    event = select_button();
+    switch (event){
+    case BE_SINGLE_PUSH:
+        GPIO_PORTF_DATA_R &= ~(0b00001100);
+        GPIO_PORTF_DATA_R |= 0b00000010;
+        break;
+    case BE_DOUBLE_PUSH:
+        GPIO_PORTF_DATA_R &= ~(0b00001010);
+        GPIO_PORTF_DATA_R |= 0b00000100;
+        break;
+    case BE_LONG_PUSH:
+        GPIO_PORTF_DATA_R &= ~(0b00000110);
+        GPIO_PORTF_DATA_R |= 0b00001000;
+        break;
+    default:
+        break;
+    }
+=======
 
     tl_emergency();
+>>>>>>> 6d51886ff24d4081056edc4009c1ccbadfff9f33:Assignment_2_final/main.c
   }
   return( 0 );
 }
