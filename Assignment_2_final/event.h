@@ -33,9 +33,6 @@
 #define BE_SINGLE_PUSH  1
 #define BE_DOUBLE_PUSH  2
 #define BE_LONG_PUSH    3
-
-//timer event
-#define TE_TIMEOUT      4
 /*****************************   Constants   *******************************/
 
 /*****************************   Functions   *******************************/

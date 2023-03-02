@@ -33,7 +33,7 @@ void traffic_light(INT8U event)
 *   Function : Rotates between states based on conditions
 ******************************************************************************/
 {
-    static tl_state = TL_STANDARD;
+    static INT8U tl_state = TL_STANDARD;
 
     switch (tl_state)       //Calls LED functions based on tl_state
     {
