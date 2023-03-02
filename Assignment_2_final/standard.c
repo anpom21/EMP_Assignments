@@ -44,13 +44,12 @@ INT8U light_state = LS_RED; // initial state is red
 
 /*****************************   Functions   *******************************/
 
-//void standard(void)
+void standard(void)
 /*****************************************************************************
 *   Input    :
 *   Output   :
 *   Function : The super loop.
 ******************************************************************************/
-/*
 {
     if( ! --timer )
         {
@@ -75,6 +74,5 @@ INT8U light_state = LS_RED; // initial state is red
           }
         }
 }
-*/
 
 /****************************** End Of Module *******************************/
