@@ -2,11 +2,12 @@
 * University of Southern Denmark
 * Embedded C Programming (ECP)
 *
-* MODULENAME.: event.h
+* MODULENAME.:button.h
 *
 * PROJECT....: Assignment 2 - Traffic light
 *
-* DESCRIPTION: Defines button event states.
+* DESCRIPTION: listens to button pushes and sets the event value
+*           to match correspondingly.
 *
 * Change Log:
 ******************************************************************************
@@ -17,29 +18,33 @@
 *
 *****************************************************************************/
 
-
-#ifndef EVENT_H_
-#define EVENT_H_
-
-
+#ifndef TRAFFIC_LIGHT_H_
+#define TRAFFIC_LIGHT_H_
 
 /***************************** Include files *******************************/
-
+#include "norge.c"
+#include "emp_type.h"
+#include "event.h"
 /*****************************    Defines    *******************************/
-//initial event
-#define GE_NO_EVENT     0
+#define TL_STANDARD     0
+#define TL_NORWAY       1
+#define TL_RED          2
 
-//Button events
-#define BE_SINGLE_PUSH  1
-#define BE_DOUBLE_PUSH  2
-#define BE_LONG_PUSH    3
-
-//timer event
-#define TE_TIMEOUT      4
 /*****************************   Constants   *******************************/
 
 /*****************************   Functions   *******************************/
 
+void traffic_light(INT8U event);
+/*****************************************************************************
+*   Input    : Button Event
+*   Output   :
+*   Function : Rotates between states based on conditions
+******************************************************************************/
+
+
 /****************************** End Of Module *******************************/
 
-#endif /* EVENT_H_ */
+
+
+
+#endif /* TRAFFIC_LIGHT_H_ */

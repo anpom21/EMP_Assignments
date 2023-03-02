@@ -22,7 +22,8 @@
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
 #include "systick.h"
-
+#include "event.h"
+#include "timers.h"
 
 
 #include "gpio.h"
@@ -45,7 +46,7 @@ int main(void)
 {
   INT8U event;
   INT8U counter_value;
-  INT8U alive_timer = TIM_500_MSEC;
+  INT8U alive_timer = TIME_500_MSEC;
 
   init_systick();
   init_gpio();
@@ -62,15 +63,29 @@ int main(void)
 
     if( ! --alive_timer )
     {
-      alive_timer        = TIM_500_MSEC;
+      alive_timer        = TIME_500_MSEC;
       GPIO_PORTD_DATA_R ^= 0x40;
     }
 
     // Application part of the super loop.
     // -----------------------------------
     event = select_button();
-    counter_value = counter( event );
-    counter_leds( counter_value );
+    switch (event){
+    case BE_SINGLE_PUSH:
+        GPIO_PORTF_DATA_R &= ~(0b00001100);
+        GPIO_PORTF_DATA_R |= 0b00000010;
+        break;
+    case BE_DOUBLE_PUSH:
+        GPIO_PORTF_DATA_R &= ~(0b00001010);
+        GPIO_PORTF_DATA_R |= 0b00000100;
+        break;
+    case BE_LONG_PUSH:
+        GPIO_PORTF_DATA_R &= ~(0b00000110);
+        GPIO_PORTF_DATA_R |= 0b00001000;
+        break;
+    default:
+        break;
+    }
   }
   return( 0 );
 }
