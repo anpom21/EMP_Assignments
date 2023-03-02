@@ -22,15 +22,8 @@
 #include "emp_type.h"
 #include "gpio.h"
 /*****************************    Defines    *******************************/
-//---colors for LED-----------
-/*#define LED_GREEN 4
-#define LED_BLUE 2
-#define LED_CYAN 6
-#define LED_RED 1
-#define LED_YELLOW 5
-#define LED_MAGENTA 3
-#define LED_WHITE 7
-*/
+
+//position in the data register
 #define START_BIT_LED   1
 
 /*****************************   Constants   *******************************/
@@ -39,16 +32,6 @@
 
 /*****************************   Functions   *******************************/
 
-void LED_EMP(INT8U LED_color)
-/*****************************************************************************
-*   Input    : Desired color as seen under defines
-*   Output   : Sets the desired color on the EMP board
-*   Function : --
-******************************************************************************/
-{
-    GPIO_PORTF_DATA_R &= ~(0b111 << START_BIT_LED); //Clear the LEDs
-    GPIO_PORTF_DATA_R |= (LED_color) << START_BIT_LED; //Set the desired color
-}
 
 void LED_EMP_expansion(INT8U LED_color)
 /*****************************************************************************
@@ -73,7 +56,7 @@ void LED_EMP_expansion_2color(INT8U LED_color, INT8U LED_color_2)
     GPIO_PORTF_DATA_R &= ~(LED_color_2) << START_BIT_LED; //Set the desired color
 }
 
-
+//DOES NOT WORK CURRENTLY
 void LED_toggle(void)
 /*****************************************************************************
 *   Input    : ---
