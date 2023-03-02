@@ -24,7 +24,6 @@
 #include "systick.h"
 #include "event.h"
 #include "timers.h"
-#include "timers.h"
 #include "norway.h"
 #include "emergency.h"
 #include "LED.h"
@@ -55,7 +54,7 @@ int main(void)
   init_gpio();
 
 
-  GPIO_PORTF_DATA_R &= ~(0x0E);
+
 
   // Loop forever.
   while(1)
