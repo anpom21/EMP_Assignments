@@ -64,7 +64,6 @@ INT8U select_button(void)
             }
             else if (! --button_timer ) {
                 button_state = BS_LONG_PUSH;
-                button_event = BE_LONG_PUSH;
             }
             break;
         case BS_FIRST_RELEASE:
@@ -79,7 +78,6 @@ INT8U select_button(void)
             break;
         case BS_SECOND_PUSH:
             if (! --button_timer) {
-                button_event = BE_LONG_PUSH;
                 button_state = BS_LONG_PUSH;
             }
             else if (! button_pushed()) {
@@ -90,6 +88,7 @@ INT8U select_button(void)
         case BS_LONG_PUSH:
             if (! button_pushed()) {
                 button_state = BS_IDLE;
+                button_event = BE_LONG_PUSH;
             }
             break;
         default:
