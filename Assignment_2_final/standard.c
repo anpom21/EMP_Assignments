@@ -30,6 +30,7 @@
 
 
 /*****************************    Defines    *******************************/
+//Different states for the traffic light
 #define LS_RED            0
 #define LS_RED_YELLOW     1
 #define LS_GREEN          2
@@ -39,8 +40,8 @@
 
 /*****************************   Variables   *******************************/
 
-INT16U timer = TIME_1_SEC;
-INT8U light_state = LS_RED; // initial state is red
+INT16U timer = TIME_1_SEC;  //Timer for changing the signal
+INT8U light_state = LS_RED; //Initial state is red
 
 /*****************************   Functions   *******************************/
 
@@ -50,11 +51,9 @@ void standard(void)
 *   Output   :
 *   Function : The super loop.
 ******************************************************************************/
-<<<<<<< HEAD
 
-=======
->>>>>>> f91035b8e5ba8df57add2b5eaac490c329f7d078
 {
+    //Whenever the timer runs out, the state and color is changed.
     if( ! --timer )
         {
           timer        = TIME_1_SEC;
@@ -78,9 +77,6 @@ void standard(void)
           }
         }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> f91035b8e5ba8df57add2b5eaac490c329f7d078
 
 /****************************** End Of Module *******************************/

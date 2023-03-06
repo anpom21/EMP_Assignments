@@ -10,12 +10,8 @@
 *
 The following options exist for colors:
 LED_GREEN
-LED_BLUE
-LED_CYAN
 LED_RED
 LED_YELLOW
-LED_MAGENTA
-LED_WHITE
 *
 * Change Log:
 ******************************************************************************
@@ -41,12 +37,6 @@ LED_WHITE
 
 /*****************************   Functions   *******************************/
 
-void LED_EMP(INT8U LED_color);
-/*****************************************************************************
-*   Input    : Desired color as seen under defines
-*   Output   : Sets the desired color on the EMP board
-*   Function : --
-******************************************************************************/
 
 void LED_EMP_expansion(INT8U LED_color);
 /*****************************************************************************
@@ -62,6 +52,7 @@ void LED_EMP_expansion_2color(INT8U LED_color, INT8U LED_color_2);
 *   Function : --
 ******************************************************************************/
 
+//does not work currently
 void LED_toggle(void);
 /*****************************************************************************
 *   Input    : ---
