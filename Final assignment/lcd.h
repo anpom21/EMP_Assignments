@@ -38,9 +38,38 @@
 /*****************************   Functions   *******************************/
 void move_LCD( INT8U, INT8U );
 INT8U wr_ch_LCD( INT8U );
-void wr_str_LCD( INT8U* );
+void wr_str_LCD( INT8U* string );
+
+// Variables for main:
+//--------------------
+// QueueHandle_t q_lcd;
+// SemaphoreHandle_t lcd_mutex;
+
+
+
+void lcd_write(INT8U* string, INT8U x, INT8U y);
+/*****************************************************************************
+*   Input    : Strings can be put directly in as the string input.
+*              Chars need to be passed by address.
+*              For x and y the desired LCD position should be used
+*   Output   : -
+*   Function : Initialization
+******************************************************************************/
+
 void lcd_init();
-INT8U button_pushed(); // ka slettes
+/*****************************************************************************
+*   Input    : -
+*   Output   : -
+*   Function : Initialization
+******************************************************************************/
+void clr_LCD();
+/*****************************************************************************
+*   Input    : -
+*   Output   : -
+*   Function : Clear display
+******************************************************************************/
+
+
 
 
 
@@ -49,9 +78,14 @@ extern void lcd_task(void *pvParameters );
 /*****************************************************************************
 *   Input    : -
 *   Output   : -
-*   Function : Test function
+*   Function : Should be run by freeRTOS
 ******************************************************************************/
-extern void lcd_hello(void *pvParameters );
+extern void lcd_example(void *pvParameters );
+/*****************************************************************************
+*   Input    : -
+*   Output   : -
+*   Function : Example use of LCD screen
+******************************************************************************/
 
 /****************************** End Of Module *******************************/
 #endif

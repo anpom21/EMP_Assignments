@@ -34,6 +34,7 @@ main.obj: ../file.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/queue.h
 main.obj: ../lcd.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h
+main.obj: ../key.h
 
 ../main.c:
 
@@ -102,4 +103,6 @@ C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment
 ../lcd.h:
 
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h:
+
+../key.h:
 

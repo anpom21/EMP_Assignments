@@ -13,6 +13,7 @@ C_SRCS += \
 ../debug.c \
 ../file.c \
 ../gpio.c \
+../key.c \
 ../lcd.c \
 ../main.c \
 ../status_led.c \
@@ -24,6 +25,7 @@ C_DEPS += \
 ./debug.d \
 ./file.d \
 ./gpio.d \
+./key.d \
 ./lcd.d \
 ./main.d \
 ./status_led.d \
@@ -35,6 +37,7 @@ OBJS += \
 ./debug.obj \
 ./file.obj \
 ./gpio.obj \
+./key.obj \
 ./lcd.obj \
 ./main.obj \
 ./status_led.obj \
@@ -46,6 +49,7 @@ OBJS__QUOTED += \
 "debug.obj" \
 "file.obj" \
 "gpio.obj" \
+"key.obj" \
 "lcd.obj" \
 "main.obj" \
 "status_led.obj" \
@@ -57,6 +61,7 @@ C_DEPS__QUOTED += \
 "debug.d" \
 "file.d" \
 "gpio.d" \
+"key.d" \
 "lcd.d" \
 "main.d" \
 "status_led.d" \
@@ -68,6 +73,7 @@ C_SRCS__QUOTED += \
 "../debug.c" \
 "../file.c" \
 "../gpio.c" \
+"../key.c" \
 "../lcd.c" \
 "../main.c" \
 "../status_led.c" \

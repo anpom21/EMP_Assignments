@@ -18,10 +18,12 @@
 *****************************************************************************/
 
 /***************************** Include files *******************************/
+
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
 #include "lcd.h"
+#include "key.h"
 #include "glob_def.h"
 #include "tmodel.h"
 
@@ -45,6 +47,7 @@ enum LCD_states
 };
 
 /*****************************   Constants   *******************************/
+
 const INT8U LCD_init_sequense[]= 
 {
   0x30,		// Reset
@@ -62,12 +65,29 @@ const INT8U LCD_init_sequense[]=
 }; 
 
 /*****************************   Variables   *******************************/
+
 extern QueueHandle_t q_lcd;
-extern lcd_mutex;
+extern SemaphoreHandle_t lcd_mutex;
+
 enum LCD_states LCD_state = LCD_POWER_UP;
 INT8U LCD_init;
 
 /*****************************   Functions   *******************************/
+
+void lcd_init()
+/*****************************************************************************
+*   Input    :
+*   Output   :
+*   Function : Initialize queues and mutexes
+******************************************************************************/
+{
+
+    q_lcd = xQueueCreate(128, sizeof(INT8U));
+    lcd_mutex = xSemaphoreCreateMutex();
+    clr_LCD();
+}
+
+
 INT8U wr_ch_LCD( INT8U Ch )
 /*****************************************************************************
 *   OBSERVE  : LCD_PROC NEEDS 20 mS TO PRINT OUT ONE CHARACTER 
@@ -75,19 +95,19 @@ INT8U wr_ch_LCD( INT8U Ch )
 *****************************************************************************/
 {
   xQueueSend( q_lcd, &Ch, portMAX_DELAY );
-  vTaskDelay(1 / portTICK_RATE_MS); 
+  vTaskDelay(1 / portTICK_RATE_MS);
   return ( 1 );
 }
 
-void wr_str_LCD( INT8U *pStr )
+void wr_str_LCD( INT8U *string )
 /*****************************************************************************
 *   Function : See module specification (.h-file).
 *****************************************************************************/
 {
-  while( *pStr )
+  while( *string )
   {
-    wr_ch_LCD( *pStr );
-	pStr++;
+    wr_ch_LCD( *string );
+    string++;
   }
 }
 
@@ -102,6 +122,12 @@ void move_LCD( INT8U x, INT8U y )
   Pos |= 0x80;
   wr_ch_LCD( ESC );
   wr_ch_LCD( Pos );
+
+
+
+
+
+
 }
 //----------------------------
 
@@ -241,17 +267,7 @@ void out_LCD( INT8U Ch )
   out_LCD_low( Ch );
 }
 
-void lcd_init()
-/*****************************************************************************
-*   Input    :
-*   Output   :
-*   Function : Initialize queues and mutexes
-******************************************************************************/
-{
 
-    q_lcd = xQueueCreate(128, sizeof(INT8U));
-    lcd_mutex = xSemaphoreCreateMutex();
-}
 
 
 extern void lcd_task(void *pvParameters )
@@ -336,37 +352,48 @@ extern void lcd_task(void *pvParameters )
 
 
 
+void lcd_write(INT8U* string, INT8U x, INT8U y){
+  move_LCD(x,y);
+  wr_str_LCD(string);
+}
+
+
 extern void lcd_example(void *pvParameters ){
 
+  INT8U key;
+  static INT8U cursor_x = 0;
 
   while (1)
   {
-
+    
 
 
       // 1: Take mutex
       if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
 
-      // 2: Move cursor position to desired location
-      move_LCD( 0, 0 );  
+        // 2: Move cursor position to desired location
+        move_LCD( 0, 0 );  
 
-      // 2.1: Display can be cleared when necessary (should not be cleared every time it is written to, only when a new 'menu' should be displayed.)
-      //clr_LCD();
+        // 2.1: Display can be cleared when necessary (should not be cleared every time it is written to, only when a new 'menu' should be displayed.)
+        //clr_LCD();
 
-      // 3: Write to LCD with a string or char
-      wr_str_LCD("LCD skaermen er ");
+        // 3: Write to LCD with a string or char
+        lcd_write("Keypad er klar!",0,0);
 
 
-      move_LCD( 0, 1 );  
-      wr_str_LCD("paa ");
-      wr_ch_LCD('R');
-      wr_ch_LCD('T');
-      wr_ch_LCD('O');
-      wr_ch_LCD('S');
-      wr_ch_LCD('!');
+        if (get_keyboard(&key))
+        {
+          lcd_write(&key,(cursor_x++) % 16,1);
 
-      // 4: Give back mutex
-      xSemaphoreGive( lcd_mutex );
+
+          if(cursor_x == 15){
+              clr_LCD();
+          }
+        }
+
+
+        // 4: Give back mutex
+        xSemaphoreGive( lcd_mutex );
       }
     
      

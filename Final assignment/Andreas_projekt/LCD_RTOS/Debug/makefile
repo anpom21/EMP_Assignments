@@ -14,6 +14,7 @@ ORDERED_OBJS += \
 "./debug.obj" \
 "./file.obj" \
 "./gpio.obj" \
+"./key.obj" \
 "./lcd.obj" \
 "./main.obj" \
 "./status_led.obj" \
@@ -180,8 +181,8 @@ LCD_RTOS.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "SPI.obj" "debug.obj" "file.obj" "gpio.obj" "lcd.obj" "main.obj" "status_led.obj" "string.obj" "uart0.obj" "frt10\port\MemMang\heap_2.obj" "frt10\port\TivaM4\port.obj" "frt10\port\TivaM4\portasm.obj" "frt10\port\TivaM4\startup_frt.obj" "frt10\port\TivaM4\systick_frt.obj" "frt10\src\croutine.obj" "frt10\src\event_groups.obj" "frt10\src\list.obj" "frt10\src\queue.obj" "frt10\src\stream_buffer.obj" "frt10\src\tasks.obj" "frt10\src\timers.obj" 
-	-$(RM) "SPI.d" "debug.d" "file.d" "gpio.d" "lcd.d" "main.d" "status_led.d" "string.d" "uart0.d" "frt10\port\MemMang\heap_2.d" "frt10\port\TivaM4\port.d" "frt10\port\TivaM4\startup_frt.d" "frt10\port\TivaM4\systick_frt.d" "frt10\src\croutine.d" "frt10\src\event_groups.d" "frt10\src\list.d" "frt10\src\queue.d" "frt10\src\stream_buffer.d" "frt10\src\tasks.d" "frt10\src\timers.d" 
+	-$(RM) "SPI.obj" "debug.obj" "file.obj" "gpio.obj" "key.obj" "lcd.obj" "main.obj" "status_led.obj" "string.obj" "uart0.obj" "frt10\port\MemMang\heap_2.obj" "frt10\port\TivaM4\port.obj" "frt10\port\TivaM4\portasm.obj" "frt10\port\TivaM4\startup_frt.obj" "frt10\port\TivaM4\systick_frt.obj" "frt10\src\croutine.obj" "frt10\src\event_groups.obj" "frt10\src\list.obj" "frt10\src\queue.obj" "frt10\src\stream_buffer.obj" "frt10\src\tasks.obj" "frt10\src\timers.obj" 
+	-$(RM) "SPI.d" "debug.d" "file.d" "gpio.d" "key.d" "lcd.d" "main.d" "status_led.d" "string.d" "uart0.d" "frt10\port\MemMang\heap_2.d" "frt10\port\TivaM4\port.d" "frt10\port\TivaM4\startup_frt.d" "frt10\port\TivaM4\systick_frt.d" "frt10\src\croutine.d" "frt10\src\event_groups.d" "frt10\src\list.d" "frt10\src\queue.d" "frt10\src\stream_buffer.d" "frt10\src\tasks.d" "frt10\src\timers.d" 
 	-$(RM) "frt10\port\TivaM4\portasm.d" 
 	-@echo 'Finished clean'
 	-@echo ' '

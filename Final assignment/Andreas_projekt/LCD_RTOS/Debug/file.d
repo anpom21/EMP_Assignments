@@ -15,7 +15,9 @@ file.obj: ../tm4c123gh6pm.h
 file.obj: ../emp_type.h
 file.obj: ../glob_def.h
 file.obj: ../file.h
+file.obj: ../key.h
 file.obj: ../uart0.h
+file.obj: ../lcd.h
 
 ../file.c:
 
@@ -47,5 +49,9 @@ C:/ti/ccs1110/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/_stdint.h:
 
 ../file.h:
 
+../key.h:
+
 ../uart0.h:
+
+../lcd.h:
 
