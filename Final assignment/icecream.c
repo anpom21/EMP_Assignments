@@ -69,16 +69,13 @@ INT8U ice_state = LOCKED;
 //LOCKED
 INT8U key;
 INT8U cursor_x = 0;
-INT8U password[PASSWORD_SIZE] = {54, 57, 54, 57};
 INT16U keys_pressed = 0;
-BOOLEAN unlocked = 0;
 
 
 
 //AMOUNT
 INT16U adc_val;
 INT8U icecream_amount = 0;      //in Liters
-
 
 /*****************************   Functions   *******************************/
 
@@ -145,26 +142,18 @@ void add_to_code(INT8U num){
 
 void locked(){
     if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
-    if (unlocked == LOCKED)
     lcd_write("LOCKED",0,0);
-    //else if (unlocked == UNLOCKED)
-    //{
-    //    lcd_write("UNLOCKED",0,0);
-    //}
-    cursor_x = cursor_x % PASSWORD_SIZE;
+    
     if (get_keyboard(&key))
         {
-        key = ascii_to_num(key);
-        add_to_code(key);
-        gfprintf(COM1, "key: %u, cursor: %u, keys_pressed: %u\r", key, cursor_x, keys_pressed);
-                    
-            lcd_write("*",(cursor_x++) % PASSWORD_SIZE, 1);
-
-
-            if(cursor_x % PASSWORD_SIZE == 0){
-            if(keys_pressed % 8 == 0){
-              ice_state = AMOUNT;
-              clr_LCD();
+        key = ascii_to_num(key);    //convert the key pressed from ascii to int
+        add_to_code(key);           //add the new key to the string of pressed digits
+            lcd_write("*",(cursor_x++) % PASSWORD_SIZE, 1); //note the key on the LCD
+            cursor_x = cursor_x % PASSWORD_SIZE;            //done so that modulo doesnt need to be taken all the time
+            if(cursor_x == 0){  //if 4 digits have been pressed
+            if(keys_pressed % 8 == 0){  //check if valid password
+                ice_state = AMOUNT;
+                clr_LCD();              //be nice and clean after yourself :D
             }
             else {
                 clr_LCD();
@@ -176,8 +165,6 @@ void locked(){
 }
 
 void choose_amount(){
-  while (1)
-  {
     adc_val = get_adc();        //adc max value is 4095
     if(adc_val < ADC_MAX_VAL/3){
         icecream_amount = 1;
@@ -217,7 +204,14 @@ void choose_amount(){
 
         // 4: Give back mutex
         xSemaphoreGive( lcd_mutex );
-  }
+        if (get_keyboard(&key)){
+        ice_state = PRODUCTION;
+        clr_LCD();
+        }
+}
+
+void processing(){
+    lcd_write("producing...", 0, 0);
 }
 
 extern void icecream_task(void *pvParameters ){    
@@ -231,7 +225,8 @@ extern void icecream_task(void *pvParameters ){
     case AMOUNT:
         choose_amount();
         break;
-    
+    case PRODUCTION:
+        processing();
     default:
         break;
     }
