@@ -10,6 +10,7 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../SPI.c \
+../buttons.c \
 ../debug.c \
 ../file.c \
 ../gpio.c \
@@ -22,6 +23,7 @@ C_SRCS += \
 
 C_DEPS += \
 ./SPI.d \
+./buttons.d \
 ./debug.d \
 ./file.d \
 ./gpio.d \
@@ -34,6 +36,7 @@ C_DEPS += \
 
 OBJS += \
 ./SPI.obj \
+./buttons.obj \
 ./debug.obj \
 ./file.obj \
 ./gpio.obj \
@@ -46,6 +49,7 @@ OBJS += \
 
 OBJS__QUOTED += \
 "SPI.obj" \
+"buttons.obj" \
 "debug.obj" \
 "file.obj" \
 "gpio.obj" \
@@ -58,6 +62,7 @@ OBJS__QUOTED += \
 
 C_DEPS__QUOTED += \
 "SPI.d" \
+"buttons.d" \
 "debug.d" \
 "file.d" \
 "gpio.d" \
@@ -70,6 +75,7 @@ C_DEPS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../SPI.c" \
+"../buttons.c" \
 "../debug.c" \
 "../file.c" \
 "../gpio.c" \

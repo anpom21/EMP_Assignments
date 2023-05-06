@@ -33,6 +33,7 @@
 
 #include "projdefs.h"
 #include "portmacro.h"
+#include "buttons.h"
 
 /*****************************    Defines    *******************************/
 
@@ -358,6 +359,8 @@ void lcd_write(INT8U* string, INT8U x, INT8U y){
 }
 
 
+
+
 extern void lcd_example(void *pvParameters ){
 
   INT8U key;
@@ -380,6 +383,16 @@ extern void lcd_example(void *pvParameters ){
         // 3: Write to LCD with a string or char
         lcd_write("Keypad er klar!",0,0);
 
+        if (sw2_pushed()){
+          key = GPIO_PORTF_DATA_R ^= 0x02;
+
+        }
+
+        
+        if (sw1_pushed()){
+          key = GPIO_PORTF_DATA_R ^= 0x04;
+
+        }
 
         if (get_keyboard(&key))
         {
