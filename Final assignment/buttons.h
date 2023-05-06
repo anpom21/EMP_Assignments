@@ -17,38 +17,22 @@
 *
 *****************************************************************************/
 
-#ifndef _KEY_H
-  #define _KEY_H
+#ifndef _BUTTONS_H
+  #define _BUTTONS_H
 #include "emp_type.h"
 
 
-// Variables til main:
-//--------------------
-// QueueHandle_t q_keypad;
-// SemaphoreHandle_t keypad_mutex;
-
-
-
-// Eksempel p� brug af keypad kan ses i lcd.c under lcd_example
-
-
-BOOLEAN get_keyboard( INT8U* );
+BOOLEAN sw1_pushed();
 /*****************************************************************************
-*   Input    : Pointer to variable used to store the keyboard value in
-*   Output   : If a key press is stored in the queue, the function will return true.
-*   Function : Returns recent key press.
+*   Input    : -
+*   Output   : -
+*   Function : Check if switch 1 is pressed
 ******************************************************************************/
-void keypad_init();
+BOOLEAN sw2_pushed();
 /*****************************************************************************
 *   Input    :
 *   Output   :
-*   Function : Initialize queues and semaphores. To be used in main.
-******************************************************************************/
-extern void keypad_task(void *pvParameters );
-/*****************************************************************************
-*   Input    :
-*   Output   :
-*   Function : FreeRTOS task
+*   Function : Check if switch 2 is pressed
 ******************************************************************************/
 
 #endif

@@ -56,13 +56,13 @@ static void setupHardware(void)
 
 
 int main(void)
-    {
+     {
     setupHardware();
     xTaskCreate( keypad_task, "keypad_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
     xTaskCreate( lcd_example, "lcd_example", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
     xTaskCreate( lcd_task, "lcd_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
-    xTaskCreate( uart_tx_task, "uart_tx_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
-    xTaskCreate( uart_rx_task, "uart_rx_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
+    //xTaskCreate( uart_tx_task, "uart_tx_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
+    //xTaskCreate( uart_rx_task, "uart_rx_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
 
     xTaskCreate( status_led_task, "alive_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
     vTaskStartScheduler();

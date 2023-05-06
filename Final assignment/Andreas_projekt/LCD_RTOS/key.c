@@ -71,6 +71,32 @@ INT8U row( INT8U y )
   return( result );
 }
 
+INT8U column( INT8U x )
+{
+  INT8U result = 0;
+
+  switch( x )
+  {
+    case 1: result = 0x10; break;   // PE4 column 1
+    case 2: result = 0x08; break;   // PE3 column 2
+    case 3: result = 0x04; break;   // PE2 column 3
+  }
+  return( result );
+}
+
+INT8U set_column( INT8U x )
+{
+  INT8U result = column(x);
+  
+  if (result)
+  {
+    GPIO_PORTA_DATA_R &= 0xE3;          // Clear the 3 bits for the columns
+    GPIO_PORTA_DATA_R |= result;        // Set the resulting column
+  }
+  
+  return( result );
+}
+
 INT8U key_catch( x, y )
 INT8U x, y;
 {
@@ -94,7 +120,7 @@ BOOLEAN get_keyboard( INT8U *pch )
   return( result );
 }
 
-BOOLEAN check_column(INT8U x)
+BOOLEAN check_rows(INT8U x)
 {
     INT8U y = GPIO_PORTE_DATA_R & 0x0F;             // Save the values of the 4 bits for the rows
     if( y )                                         // If one of them are set...
@@ -116,7 +142,7 @@ extern void keypad_task(void *pvParameters )
 *   Function :
 ******************************************************************************/
 {
-
+  
   while (1)
   {
     switch(state)
@@ -124,26 +150,25 @@ extern void keypad_task(void *pvParameters )
   case RDY:
 
     if( xSemaphoreTake( keypad_mutex, ( TickType_t ) 1 ) == pdTRUE ){
-        GPIO_PORTA_DATA_R &= 0xE3;          // Clear the 3 bits for the columns
-        GPIO_PORTA_DATA_R |= 0x10;          // Set the bit for column 1
-        if (check_column(1))                // Check all the rows for column 1, using the function check_column
-        {                                   // If a button press is registered we go to next state so the press is only registered once
+        
+        set_column(1);                  // Set the bit for the column
+        if (check_rows(1))                  // Check all the rows for a hit
+        {                                     // If a button press is registered we go to next state so the press is only registered once
             state = WAIT;
             xSemaphoreGive(keypad_mutex);
             break;
         }
-        GPIO_PORTA_DATA_R &= 0xE3;          // Clear column bits
-        GPIO_PORTA_DATA_R |= 0x08;          // Set column 2
-        if (check_column(2))                // Check for a hit
+        
+        set_column(2);                  // Set column 2
+        if (check_rows(2))                  // Check for a hit
         {
             state = WAIT;
             xSemaphoreGive(keypad_mutex);
             break;
         }
 
-        GPIO_PORTA_DATA_R &= 0xE3;          // Clear column bits
-        GPIO_PORTA_DATA_R |= 0x04;          // Set column 3
-        if (check_column(3))                // Check for a hit
+        set_column(3);                  // Set column 3
+        if (check_rows(3))                  // Check for a hit
         {
             state = WAIT;
             xSemaphoreGive(keypad_mutex);
