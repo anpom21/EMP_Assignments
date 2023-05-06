@@ -29,7 +29,8 @@ lcd.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ a
 lcd.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/task.h
 lcd.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/list.h
 lcd.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h
-lcd.obj: ../buttons.h
+lcd.obj: ../switches.h
+lcd.obj: ../leds.h
 
 ../lcd.c:
 
@@ -89,5 +90,7 @@ C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment
 
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h:
 
-../buttons.h:
+../switches.h:
+
+../leds.h:
 

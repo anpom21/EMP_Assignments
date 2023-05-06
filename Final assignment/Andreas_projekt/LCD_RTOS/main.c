@@ -16,6 +16,9 @@
 #include "lcd.h"
 #include "semphr.h"
 #include "key.h"
+#include "timers.h"
+#include "leds.h"
+
 
 #define USERTASK_STACK_SIZE configMINIMAL_STACK_SIZE
 #define IDLE_PRIO 0
@@ -31,6 +34,11 @@ QueueHandle_t q_keypad;
 
 SemaphoreHandle_t lcd_mutex;
 SemaphoreHandle_t keypad_mutex;
+
+xTimerHandle xTimer_led_freq;
+xTimerHandle xTimer_led_dur;
+
+
 
 
 static void setupHardware(void)
@@ -50,13 +58,16 @@ static void setupHardware(void)
 
   lcd_init();
   keypad_init();
+  led_init();
+  
+
 
 
 }
 
 
 int main(void)
-     {
+{
     setupHardware();
     xTaskCreate( keypad_task, "keypad_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
     xTaskCreate( lcd_example, "lcd_example", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
