@@ -27,6 +27,7 @@
 
 //USER FILES
 #include "adc.h"
+#include "buttons.h"
 #include "file.h"
 #include "icecream.h"
 #include "key.h"
@@ -47,7 +48,7 @@
 #define FLAVOUR 1
 #define LIQUID 2
 #define AMOUNT 3
-#define PROCESS 4
+#define CUP 4
 #define PRODUCTION 5
 #define LOGGING 6
 
@@ -55,6 +56,15 @@
 #define UNLOCKED 1
 #define PASSWORD_SIZE 4
 
+//FLAVOURS
+#define VANILLA 1
+#define CHOCOLATE 2
+#define STRAWBERRY 3
+
+//LIQUID BASE
+#define MILK 0
+#define OAT 1
+#define COCO 2
 /*****************************   Constants   *******************************/
 
  
@@ -76,6 +86,23 @@ INT16U keys_pressed = 0;
 //AMOUNT
 INT16U adc_val;
 INT8U icecream_amount = 0;      //in Liters
+
+// FLAVOUR
+INT8U chosen_flavour = 0;
+
+//LIQUID BASE
+INT8U liquid_base = 0;
+
+
+// CUP PLACED??
+BOOLEAN forgot_cup = FALSE;
+
+//PRODUCTION
+INT8U production_time = 0;
+INT8U production_frequency = 1;
+INT8U timer_counter = 0;
+INT8U led_cycles = 0; //how many times should the led flash with the given frequency and duration
+INT8U led_counter = 0;
 
 /*****************************   Functions   *******************************/
 
@@ -152,7 +179,7 @@ void locked(){
             cursor_x = cursor_x % PASSWORD_SIZE;            //done so that modulo doesnt need to be taken all the time
             if(cursor_x == 0){  //if 4 digits have been pressed
             if(keys_pressed % 8 == 0){  //check if valid password
-                ice_state = AMOUNT;
+                ice_state = FLAVOUR;
                 clr_LCD();              //be nice and clean after yourself :D
             }
             else {
@@ -162,6 +189,20 @@ void locked(){
         }
     }
     xSemaphoreGive( lcd_mutex );
+}
+
+void flavour(){
+    lcd_write("1: vanilla  2: chocolate",0 , 0);
+    lcd_write("3: strawberry", 0, 1);
+    if (get_keyboard(&key)){
+        key = ascii_to_num(key);
+        if(key == 1 || key == 2 || key == 3){
+        ice_state = AMOUNT;
+        chosen_flavour = key;
+        clr_LCD();
+        }
+    }
+
 }
 
 void choose_amount(){
@@ -205,29 +246,153 @@ void choose_amount(){
         // 4: Give back mutex
         xSemaphoreGive( lcd_mutex );
         if (get_keyboard(&key)){
-        ice_state = PRODUCTION;
+        ice_state = CUP;
         clr_LCD();
         }
 }
 
-void processing(){
+void place_cup(){
+    if(!forgot_cup){
+    if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+    lcd_write("place cup and", 0, 0);
+    lcd_write("press start", 0, 1);
+    xSemaphoreGive( lcd_mutex );
+    }
+    }
+    else if (forgot_cup)
+    {
+        if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+        lcd_write("PLACE CUP!!", 0, 0);
+        xSemaphoreGive( lcd_mutex );
+    }
+    }
+    
+    if(sw1_pushed() && sw2_pushed()){
+        clr_LCD();
+        ice_state = PRODUCTION;
+    }
+    else if (sw2_pushed())
+    {
+        clr_LCD();
+        forgot_cup = TRUE;    
+    }
+    
+
+};
+
+void producing(){
     lcd_write("producing...", 0, 0);
+    //GPIO_PORTF_DATA_R ^= (1<<1);
+    switch (liquid_base)
+    {
+    case MILK:
+        production_frequency = 1;
+        break;
+    case OAT:
+        production_frequency = 2;
+        break;
+    case COCO:
+        production_frequency = 4;
+        break;
+    default:
+        break;
+    }
+    
+    switch (chosen_flavour)
+    {
+    case VANILLA:
+        production_time = 5;
+        break;
+    case CHOCOLATE:
+        production_time = 7;
+        break;
+    case STRAWBERRY:
+        production_time = 10;
+        break;
+    default:
+        break;
+    }
+    production_time *= icecream_amount;
+    led_cycles = production_time * production_frequency;
+    
+    vTaskDelay(1000/production_frequency/portTICK_RATE_MS);
+    
+    switch (chosen_flavour)
+    {
+    case VANILLA:
+        GPIO_PORTF_DATA_R ^= (1<<2);
+        break;
+    case CHOCOLATE:
+        GPIO_PORTF_DATA_R ^= (1<<3);
+        break;
+    case STRAWBERRY:
+        GPIO_PORTF_DATA_R ^= (1<<1);
+        break;
+    default:
+        break;
+    }
+    led_counter++;
+    if (led_counter == led_cycles){
+        clr_LCD();
+        ice_state = LOCKED;
+    }
+}
+
+void logging(){
+    gfprintf(COM1, "flavour: ");
+    switch (chosen_flavour)
+    {
+    case VANILLA:
+        gfprintf(COM1, "vanilla");
+        break;
+    case CHOCOLATE:
+        gfprintf(COM1, "chocolate");
+        break;
+    case STRAWBERRY:
+        gfprintf(COM1, "strawberry");
+        break;
+    default:
+        break;
+    }
+    gfprintf(COM1, "; Liquid base: ");
+    switch (liquid_base)
+    {
+    case MILK:
+        gfprintf(COM1, "MILK");
+        break;
+    case OAT:
+        gfprintf(COM1, "OAT");
+        break;
+    case COCO:
+        gfprintf(COM1, "COCO");
+        break;
+    default:
+        break;
+    }
 }
 
 extern void icecream_task(void *pvParameters ){    
     ice_state = LOCKED;
-    while(1)
+    while(1){
+    gfprintf(COM1, "flavour:%u, amount:%u, liquid:%u\r", chosen_flavour, icecream_amount, liquid_base);
     switch (ice_state)
     {
     case LOCKED:
         locked();
         break;
+    case FLAVOUR:
+        flavour();
+        break;
     case AMOUNT:
         choose_amount();
         break;
+    case CUP:
+        place_cup();
+        break;
     case PRODUCTION:
-        processing();
+        producing();
     default:
         break;
+    }
     }
 }
