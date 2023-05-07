@@ -33,7 +33,8 @@
 
 #include "projdefs.h"
 #include "portmacro.h"
-#include "buttons.h"
+#include "switches.h"
+#include "leds.h"
 
 /*****************************    Defines    *******************************/
 
@@ -383,15 +384,8 @@ extern void lcd_example(void *pvParameters ){
         // 3: Write to LCD with a string or char
         lcd_write("Keypad er klar!",0,0);
 
-        if (sw2_pushed()){
-          key = GPIO_PORTF_DATA_R ^= 0x02;
-
-        }
-
-        
-        if (sw1_pushed()){
-          key = GPIO_PORTF_DATA_R ^= 0x04;
-
+        if(led_flashing(LED_YELLOW,20,4)){
+          lcd_write("Succes!",0,1);
         }
 
         if (get_keyboard(&key))
