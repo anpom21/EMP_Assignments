@@ -1,10 +1,10 @@
 /*****************************************************************************
 * University of Southern Denmark
-* Embedded Programming (EMP)
+* Embedded C Programming (ECP)
 *
-* MODULENAME.: uart.h
+* MODULENAME.: leds.h
 *
-* PROJECT....: EMP
+* PROJECT....: ECP
 *
 * DESCRIPTION: Test.
 *
@@ -13,32 +13,31 @@
 * Date    Id    Change
 * YYMMDD
 * --------------------
-* 150228  MoH   Module created.
+* 050128  KA    Module created.
 *
 *****************************************************************************/
 
-#ifndef _UART_H
-  #define _UART_H
+#ifndef _ICE_CREAM_SETTINGS_H
+  #define _ICE_CREAM_SETTINGS_H
 
 /***************************** Include files *******************************/
 #include "emp_type.h"
 /*****************************    Defines    *******************************/
 
+
 /*****************************   Constants   *******************************/
 
 /*****************************   Functions   *******************************/
-BOOLEAN uart0_put_q( INT8U );
-BOOLEAN uart0_get_q( INT8U* );
-
-void uart_tx_task(INT8U my_id, INT8U my_state, INT8U event, INT8U data);
-void uart_rx_task(void *pvParameters);
+void settings_init();
 
 
-extern void uart0_init( INT32U, INT8U, INT8U, INT8U );
+void settings_task(void *pvParameters );
 /*****************************************************************************
-*   Input    : -
+*   Input    : Strings can be put directly in as the string input.
+*              Chars need to be passed by address ex lcd_write(&ch,0,0)
+*              For x and y the desired LCD position should be used
 *   Output   : -
-*   Function : Initialize uart 0
+*   Function : Initialization
 ******************************************************************************/
 
 

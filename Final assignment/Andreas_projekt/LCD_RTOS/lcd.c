@@ -87,6 +87,7 @@ void lcd_init()
     q_lcd = xQueueCreate(128, sizeof(INT8U));
     lcd_mutex = xSemaphoreCreateMutex();
     clr_LCD();
+    //lcd_write("Keypad er klar!",0,0);
 }
 
 
@@ -288,7 +289,7 @@ extern void lcd_task(void *pvParameters )
 {
   INT8U ch;
   
-
+  
   while(1){
 
   
@@ -368,11 +369,12 @@ void lcd_write(INT8U* string, INT8U x, INT8U y){
   if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
     move_LCD(x,y);
     wr_str_LCD(string);
+    xSemaphoreGive( lcd_mutex );
   }
 
 
-  // 4: Give back mutex
-  xSemaphoreGive( lcd_mutex );
+
+ 
 }
 
 
@@ -382,7 +384,7 @@ extern void lcd_example(void *pvParameters ){
 
   INT8U key;
   static INT8U cursor_x = 0;
-
+  lcd_write("Keypad er klar!",0,0);
   while (1)
   {
     

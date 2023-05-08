@@ -13,6 +13,7 @@ C_SRCS += \
 ../debug.c \
 ../file.c \
 ../gpio.c \
+../ice_cream_settings.c \
 ../key.c \
 ../lcd.c \
 ../leds.c \
@@ -27,6 +28,7 @@ C_DEPS += \
 ./debug.d \
 ./file.d \
 ./gpio.d \
+./ice_cream_settings.d \
 ./key.d \
 ./lcd.d \
 ./leds.d \
@@ -41,6 +43,7 @@ OBJS += \
 ./debug.obj \
 ./file.obj \
 ./gpio.obj \
+./ice_cream_settings.obj \
 ./key.obj \
 ./lcd.obj \
 ./leds.obj \
@@ -55,6 +58,7 @@ OBJS__QUOTED += \
 "debug.obj" \
 "file.obj" \
 "gpio.obj" \
+"ice_cream_settings.obj" \
 "key.obj" \
 "lcd.obj" \
 "leds.obj" \
@@ -69,6 +73,7 @@ C_DEPS__QUOTED += \
 "debug.d" \
 "file.d" \
 "gpio.d" \
+"ice_cream_settings.d" \
 "key.d" \
 "lcd.d" \
 "leds.d" \
@@ -83,6 +88,7 @@ C_SRCS__QUOTED += \
 "../debug.c" \
 "../file.c" \
 "../gpio.c" \
+"../ice_cream_settings.c" \
 "../key.c" \
 "../lcd.c" \
 "../leds.c" \

@@ -368,11 +368,12 @@ void lcd_write(INT8U* string, INT8U x, INT8U y){
   if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
     move_LCD(x,y);
     wr_str_LCD(string);
+	// 4: Give back mutex
+  xSemaphoreGive( lcd_mutex );
   }
 
 
-  // 4: Give back mutex
-  xSemaphoreGive( lcd_mutex );
+  
 }
 
 

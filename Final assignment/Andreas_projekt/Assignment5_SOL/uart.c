@@ -20,26 +20,37 @@
 /***************************** Include files *******************************/
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
+#include "FreeRTOS.h"
+#include "Task.h"
+#include "queue.h"
+#include "semphr.h"
 #include "emp_type.h"
-#include "tmodel.h"
+
+#include "emp_type.h"
+
+
 /*****************************    Defines    *******************************/
 
 /*****************************   Constants   *******************************/
 
 /*****************************   Variables   *******************************/
+extern QueueHandle_t q_uart_tx;
+extern QueueHandle_t q_uart_rx;
 
+extern SemaphoreHandle_t mutex_uart_tx;
+extern SemaphoreHandle_t mutex_uart_rx;
 
 /*****************************   Functions   *******************************/
 
 BOOLEAN uart0_put_q( INT8U ch )
 {
-  put_queue( Q_UART_TX, ch, 1 );
+  xQueueSend( q_uart_tx, &ch, portMAX_DELAY );
   return( 1 );
 }
 
 BOOLEAN uart0_get_q( INT8U *pch )
 {
-  return( get_queue( Q_UART_RX, pch, 1 ));
+  return( xQueueReceive( q_uart_rx, pch, 1 ) == pdTRUE);
 }
 
 BOOLEAN uart0_rx_rdy()
@@ -74,17 +85,32 @@ void uart0_putc( INT8U ch )
   UART0_DR_R = ch;
 }
 
-extern void uart_rx_task(INT8U my_id, INT8U my_state, INT8U event, INT8U data)
+extern void uart_rx_task(void *pvParameters)
 /*****************************************************************************
 *   Input    :
 *   Output   :
 *   Function :
 ******************************************************************************/
 {
-  if( uart0_rx_rdy() )
-  	put_queue( Q_UART_RX, uart0_getc(), WAIT_FOREVER );
+  //if( uart0_rx_rdy() )
+  //	put_queue( Q_UART_RX, uart0_getc(), WAIT_FOREVER );
+  //else
+	//wait( 1 );
+
+  INT8U ch;
+  while(1){
+    
+    
+  if( uart0_rx_rdy() ){
+    ch = uart0_getc();
+    GPIO_PORTF_DATA_R ^= 0x02;
+    xQueueSend( q_uart_rx, &ch, portMAX_DELAY );
+     
+    
+  }
   else
-	wait( 1 );
+  vTaskDelay(5 / portTICK_RATE_MS); // wait 5 ms.
+  }
 }
 
 extern void uart_tx_task(INT8U my_id, INT8U my_state, INT8U event, INT8U data)
@@ -94,10 +120,16 @@ extern void uart_tx_task(INT8U my_id, INT8U my_state, INT8U event, INT8U data)
 *   Function :
 ******************************************************************************/
 {
-  INT8U ch;
 
-  if( get_queue( Q_UART_TX, &ch, WAIT_FOREVER ))
-  	UART0_DR_R = ch;
+  INT8U ch; 
+  while(1){
+        if( xQueueReceive( q_uart_tx, &ch, 0 ) == pdTRUE){
+          while(!uart0_tx_rdy());
+          UART0_DR_R = ch;
+        }
+      
+    
+  }
 }
 
 INT32U lcrh_databits( INT8U antal_databits )
@@ -225,7 +257,14 @@ extern void uart0_init( INT32U baud_rate, INT8U databits, INT8U stopbits, INT8U 
   uart0_fifos_disable();
 
   UART0_CTL_R  |= (UART_CTL_UARTEN | UART_CTL_TXE );  // Enable UART
+
+  q_uart_rx = xQueueCreate(128, sizeof(INT8U));
+  q_uart_tx = xQueueCreate(128, sizeof(INT8U));
+
+  mutex_uart_tx = xSemaphoreCreateMutex();
+  mutex_uart_tx = xSemaphoreCreateMutex();
 }
+
 
 /****************************** End Of Module *******************************/
 

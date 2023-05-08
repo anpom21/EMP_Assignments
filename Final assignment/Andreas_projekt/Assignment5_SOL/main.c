@@ -12,6 +12,7 @@
 #include "gpio.h"
 #include "systick.h"
 #include "status_led.h"
+
 //#include "tmodel.h"
 
 //#include "systick.h"
@@ -19,7 +20,7 @@
 
 //#include "rtc.h"
 //#include "lcd.h"
-//#include "uart.h"
+#include "uart.h"
 //#include "ui.h"
 //#include "file.h"
 
@@ -32,7 +33,16 @@
 
 
 QueueHandle_t q_keypad;
+QueueHandle_t q_uart_tx;
+QueueHandle_t q_uart_rx;
+
+SemaphoreHandle_t mutex_uart_tx;
+SemaphoreHandle_t mutex_uart_rx;
 SemaphoreHandle_t keypad_mutex;
+
+
+
+
 
 xTimerHandle xTimer_led_freq;
 xTimerHandle xTimer_led_dur;
@@ -42,7 +52,7 @@ static void setupHardware(){
   init_gpio();
   led_init();
 
-  //uart0_init( 9600, 8, 1, 'n' );
+  uart0_init( 9600, 8, 1, 'n' );
   //init_files();
   //init_rtcs();
   keypad_init();
@@ -70,6 +80,7 @@ int main(void)
   //start_task( TASK_UART_TX, uart_tx_task );
   //start_task( TASK_UART_RX, uart_rx_task );
   //start_task( TASK_UI, ui_task );
+  xTaskCreate( uart_rx_task, "key_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
   xTaskCreate( key_task, "key_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
   //start_task( TASK_UI_KEY, ui_key_task );
   xTaskCreate( status_led_task, "alive_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );

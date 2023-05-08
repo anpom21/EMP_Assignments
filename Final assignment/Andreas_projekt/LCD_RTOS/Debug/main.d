@@ -35,6 +35,8 @@ main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ 
 main.obj: ../key.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/timers.h
 main.obj: ../leds.h
+main.obj: ../ice_cream_settings.h
+main.obj: ../uart0.h
 
 ../main.c:
 
@@ -105,4 +107,8 @@ C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/timers.h:
 
 ../leds.h:
+
+../ice_cream_settings.h:
+
+../uart0.h:
 

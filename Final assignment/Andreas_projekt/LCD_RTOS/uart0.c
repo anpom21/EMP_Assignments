@@ -165,6 +165,9 @@ extern void uart0_init( INT32U baud_rate, INT8U databits, INT8U stopbits, INT8U 
 
   q_uart_tx = xQueueCreate(128, sizeof(INT8U));
   q_uart_rx = xQueueCreate(128, sizeof(INT8U));
+
+  mutex_uart_rx = xSemaphoreCreateMutex();
+  mutex_uart_tx = xSemaphoreCreateMutex();
 }
 
 BOOLEAN uart0_put_q( INT8U ch )
@@ -182,7 +185,10 @@ BOOLEAN uart0_get_q( INT8U *pch )
   // Take mutex if something is in the queue
   if( uxQueueMessagesWaiting(q_uart_rx)){
     if( xSemaphoreTake( mutex_uart_rx, ( TickType_t ) 10 ) == pdTRUE ){
+
       result = xQueueReceive( q_uart_rx, pch, 1 ) == pdTRUE;
+       
+      
       xSemaphoreGive( mutex_uart_rx );
     }
     
@@ -229,15 +235,18 @@ extern void uart_rx_task(void *pvParameters)
 *   Function :
 ******************************************************************************/
 {
+  INT8U ch;
   while(1){
-    INT8U ch;
+    
+  if( xSemaphoreTake( mutex_uart_rx, ( TickType_t ) 10 ) == pdTRUE ){
   if( uart0_rx_rdy() ){
-    if( xSemaphoreTake( mutex_uart_rx, ( TickType_t ) 10 ) == pdTRUE ){
-      ch = uart0_getc();
-
+    ch = uart0_getc();
+    
+      
       xQueueSend( q_uart_rx, &ch, portMAX_DELAY );
-      xSemaphoreGive(mutex_uart_rx);
+      
     }
+    xSemaphoreGive(mutex_uart_rx);
   }
   else
   vTaskDelay(5 / portTICK_RATE_MS); // wait 5 ms.

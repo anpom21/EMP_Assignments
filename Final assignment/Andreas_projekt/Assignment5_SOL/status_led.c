@@ -66,7 +66,7 @@ void status_led_task(void *pvParameters)
 
 	while(1)
 	{
-    led_flashing(LED_GREEN,5,5);
+//    led_flashing(LED_GREEN,5,5);
 		// Toggle status led
 	    GPIO_PORTD_DATA_R ^= 0x40;
 		vTaskDelay(1000 / portTICK_RATE_MS); // wait 500 ms.
