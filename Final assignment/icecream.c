@@ -32,6 +32,7 @@
 #include "icecream.h"
 #include "key.h"
 #include "lcd.h"
+#include "leds.h"
 #include "string.h"
 #include "uart0.h"
 
@@ -41,6 +42,7 @@
 #include "semphr.h"
 #include "projdefs.h"
 #include "portmacro.h"
+#include "timers.h"
 
 /*****************************    Defines    *******************************/
 //******** states************/
@@ -74,6 +76,15 @@ extern QueueHandle_t q_uart_tx;
 extern QueueHandle_t q_uart_rx;
 
 extern SemaphoreHandle_t lcd_mutex;
+
+extern TaskHandle_t Tflavour;
+extern TaskHandle_t Tlocked;
+extern TaskHandle_t TchooseAmount;
+extern TaskHandle_t TplaceCup;
+extern TaskHandle_t Tproducing;
+extern TaskHandle_t Tlogging;
+
+
 INT8U ice_state = LOCKED;
 
 //LOCKED
@@ -83,8 +94,9 @@ INT16U keys_pressed = 0;
 
 
 
+
+
 //AMOUNT
-INT16U adc_val;
 INT8U icecream_amount = 0;      //in Liters
 
 // FLAVOUR
@@ -93,16 +105,20 @@ INT8U chosen_flavour = 0;
 //LIQUID BASE
 INT8U liquid_base = 0;
 
+INT8U time_of_day = 0;
 
-// CUP PLACED??
-BOOLEAN forgot_cup = FALSE;
+typedef struct 
+{   
+    INT16U time_of_day;
+    INT8U icecream_flavour;
+    INT8U icecream_liquid;
+    INT8U icecream_amount;
+}   icecream;
 
-//PRODUCTION
-INT8U production_time = 0;
-INT8U production_frequency = 1;
-INT8U timer_counter = 0;
-INT8U led_cycles = 0; //how many times should the led flash with the given frequency and duration
-INT8U led_counter = 0;
+icecream current_ice;
+icecream produced[100];
+INT8U num_ice = 0;
+
 
 /*****************************   Functions   *******************************/
 
@@ -167,7 +183,8 @@ void add_to_code(INT8U num){
     }
 }
 
-void locked(){
+void locked_task(void *pvParameters ){
+    while(1){
     if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
     lcd_write("LOCKED",0,0);
     
@@ -179,8 +196,10 @@ void locked(){
             cursor_x = cursor_x % PASSWORD_SIZE;            //done so that modulo doesnt need to be taken all the time
             if(cursor_x == 0){  //if 4 digits have been pressed
             if(keys_pressed % 8 == 0){  //check if valid password
-                ice_state = FLAVOUR;
+                //ice_state = FLAVOUR;
                 clr_LCD();              //be nice and clean after yourself :D
+                vTaskResume(Tflavour);
+                vTaskSuspend(NULL);
             }
             else {
                 clr_LCD();
@@ -189,23 +208,29 @@ void locked(){
         }
     }
     xSemaphoreGive( lcd_mutex );
+    }
 }
 
-void flavour(){
-    lcd_write("1: vanilla  2: chocolate",0 , 0);
-    lcd_write("3: strawberry", 0, 1);
+void flavour_task(void *pvParameters ){
+    while(1){
+    lcd_write("1:van  2:choco",0 , 0);
+    lcd_write("3:straw", 0, 1);
     if (get_keyboard(&key)){
         key = ascii_to_num(key);
         if(key == 1 || key == 2 || key == 3){
-        ice_state = AMOUNT;
+        //ice_state = AMOUNT;
         chosen_flavour = key;
         clr_LCD();
+        vTaskResume(TchooseAmount);
+        vTaskSuspend(NULL);
         }
     }
-
+    }
 }
 
-void choose_amount(){
+void choose_amount_task(void *pvParameters){
+    INT16U adc_val;
+    while(1){
     adc_val = get_adc();        //adc max value is 4095
     if(adc_val < ADC_MAX_VAL/3){
         icecream_amount = 1;
@@ -246,30 +271,31 @@ void choose_amount(){
         // 4: Give back mutex
         xSemaphoreGive( lcd_mutex );
         if (get_keyboard(&key)){
-        ice_state = CUP;
         clr_LCD();
+        vTaskResume(TplaceCup);
+        vTaskSuspend(NULL);
         }
+    }
 }
 
-void place_cup(){
+void place_cup_task(void *pvParameters){
+    BOOLEAN forgot_cup = FALSE;
+    while(1){
     if(!forgot_cup){
-    if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
     lcd_write("place cup and", 0, 0);
     lcd_write("press start", 0, 1);
-    xSemaphoreGive( lcd_mutex );
-    }
     }
     else if (forgot_cup)
     {
-        if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+        
         lcd_write("PLACE CUP!!", 0, 0);
-        xSemaphoreGive( lcd_mutex );
-    }
     }
     
     if(sw1_pushed() && sw2_pushed()){
         clr_LCD();
-        ice_state = PRODUCTION;
+        forgot_cup = FALSE;     //clean up for next time
+        vTaskResume(Tproducing);
+        vTaskSuspend(NULL);
     }
     else if (sw2_pushed())
     {
@@ -277,12 +303,18 @@ void place_cup(){
         forgot_cup = TRUE;    
     }
     
-
+    }
 };
 
-void producing(){
+void producing_task(void *pvParameters){
+    INT8U production_time = 0;
+    float production_frequency = 1;
+    INT8U timer_counter = 0;
+    BOOLEAN finished = FALSE;
+
+    while(1){
     lcd_write("producing...", 0, 0);
-    //GPIO_PORTF_DATA_R ^= (1<<1);
+    
     switch (liquid_base)
     {
     case MILK:
@@ -313,68 +345,47 @@ void producing(){
         break;
     }
     production_time *= icecream_amount;
-    led_cycles = production_time * production_frequency;
-    
-    vTaskDelay(1000/production_frequency/portTICK_RATE_MS);
-    
     switch (chosen_flavour)
     {
     case VANILLA:
-        GPIO_PORTF_DATA_R ^= (1<<2);
+        finished = led_flashing(LED_YELLOW, production_frequency, production_time);
         break;
     case CHOCOLATE:
-        GPIO_PORTF_DATA_R ^= (1<<3);
+        finished = led_flashing(LED_GREEN, production_frequency, production_time);
         break;
     case STRAWBERRY:
-        GPIO_PORTF_DATA_R ^= (1<<1);
+        finished = led_flashing(LED_RED, production_frequency, production_time);
         break;
     default:
         break;
     }
-    led_counter++;
-    if (led_counter == led_cycles){
+    
+
+    if (finished){
         clr_LCD();
-        ice_state = LOCKED;
+        //ice_state = LOCKED;
+        log_data();
+        vTaskResume(Tlocked);
+        vTaskSuspend(NULL);
+    }
     }
 }
 
-void logging(){
-    gfprintf(COM1, "flavour: ");
-    switch (chosen_flavour)
-    {
-    case VANILLA:
-        gfprintf(COM1, "vanilla");
-        break;
-    case CHOCOLATE:
-        gfprintf(COM1, "chocolate");
-        break;
-    case STRAWBERRY:
-        gfprintf(COM1, "strawberry");
-        break;
-    default:
-        break;
-    }
-    gfprintf(COM1, "; Liquid base: ");
-    switch (liquid_base)
-    {
-    case MILK:
-        gfprintf(COM1, "MILK");
-        break;
-    case OAT:
-        gfprintf(COM1, "OAT");
-        break;
-    case COCO:
-        gfprintf(COM1, "COCO");
-        break;
-    default:
-        break;
-    }
+void log_data(){
+    current_ice.icecream_flavour = chosen_flavour;
+    current_ice.icecream_amount = icecream_amount;
+    current_ice.icecream_liquid = liquid_base;
+    current_ice.time_of_day = time_of_day;
+    
+
+    produced[num_ice] = current_ice;
+    num_ice++;
+
 }
 
-extern void icecream_task(void *pvParameters ){    
+/*extern void icecream_task(void *pvParameters ){    
     ice_state = LOCKED;
     while(1){
-    gfprintf(COM1, "flavour:%u, amount:%u, liquid:%u\r", chosen_flavour, icecream_amount, liquid_base);
     switch (ice_state)
     {
     case LOCKED:
@@ -395,4 +406,4 @@ extern void icecream_task(void *pvParameters ){
         break;
     }
     }
-}
+}*/

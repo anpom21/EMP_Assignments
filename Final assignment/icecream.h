@@ -27,5 +27,10 @@ extern void icecream_task(void *pvParameters );
 *   Output   :
 *   Function : FreeRTOS task
 ******************************************************************************/
-
+void locked_task(void *pvParameters );
+void flavour_task(void *pvParameters );
+void choose_amount_task(void *pvParameters);
+void place_cup_task(void *pvParameters);
+void producing_task(void *pvParameters);
+void logging_task(void *pvParameters);
 #endif
