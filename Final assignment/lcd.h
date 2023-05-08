@@ -50,7 +50,7 @@ void wr_str_LCD( INT8U* string );
 void lcd_write(INT8U* string, INT8U x, INT8U y);
 /*****************************************************************************
 *   Input    : Strings can be put directly in as the string input.
-*              Chars need to be passed by address.
+*              Chars need to be passed by address ex lcd_write(&ch,0,0)
 *              For x and y the desired LCD position should be used
 *   Output   : -
 *   Function : Initialization

@@ -33,6 +33,8 @@
 
 #include "projdefs.h"
 #include "portmacro.h"
+#include "switches.h"
+#include "leds.h"
 
 /*****************************    Defines    *******************************/
 
@@ -228,7 +230,13 @@ void clr_LCD()
 *   Function : Clear LCD.
 ******************************************************************************/
 {
+  
+  if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
   wr_ctrl_LCD( 0x01 );
+  }
+    // 4: Give back mutex
+        xSemaphoreGive( lcd_mutex );
+        
 }
 
 
@@ -302,6 +310,7 @@ extern void lcd_task(void *pvParameters )
       break;
 
       case LCD_READY:
+        if( uxQueueMessagesWaiting(q_lcd)){
         if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
           if( xQueueReceive( q_lcd, &ch, 0 ) == pdTRUE  )
           {
@@ -319,9 +328,11 @@ extern void lcd_task(void *pvParameters )
           }
         }
         xSemaphoreGive( lcd_mutex );
+        }
       break;
 
     case LCD_ESC_RECEIVED:
+    if( uxQueueMessagesWaiting(q_lcd)){
       if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
         if( xQueueReceive( q_lcd, &ch, 0 ) == pdTRUE  )
         {
@@ -342,6 +353,7 @@ extern void lcd_task(void *pvParameters )
         }
       }
       xSemaphoreGive( lcd_mutex );
+    }
     break;
       
     
@@ -353,9 +365,17 @@ extern void lcd_task(void *pvParameters )
 
 
 void lcd_write(INT8U* string, INT8U x, INT8U y){
-  move_LCD(x,y);
-  wr_str_LCD(string);
+  if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+    move_LCD(x,y);
+    wr_str_LCD(string);
+  }
+
+
+  // 4: Give back mutex
+  xSemaphoreGive( lcd_mutex );
 }
+
+
 
 
 extern void lcd_example(void *pvParameters ){
@@ -369,31 +389,31 @@ extern void lcd_example(void *pvParameters ){
 
 
       // 1: Take mutex
-      if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+      
 
         // 2: Move cursor position to desired location
-        move_LCD( 0, 0 );  
+        //move_LCD( 0, 0 );  
 
         // 2.1: Display can be cleared when necessary (should not be cleared every time it is written to, only when a new 'menu' should be displayed.)
         //clr_LCD();
 
         // 3: Write to LCD with a string or char
-        lcd_write("Keypad er klar!",0,0);
+        
 
+        //if( led_flashing(LED_YELLOW,20,4) ){
+        //  lcd_write("Succes!",0,1);
+        //}
 
         if (get_keyboard(&key))
         {
+          lcd_write("Keypad er klar!",0,0);
           lcd_write(&key,(cursor_x++) % 16,1);
 
 
-          if(cursor_x == 15){
+          if(cursor_x%16 == 15){
               clr_LCD();
           }
-        }
-
-
-        // 4: Give back mutex
-        xSemaphoreGive( lcd_mutex );
+        
       }
     
      

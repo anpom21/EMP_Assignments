@@ -1,0 +1,11 @@
+"./gpio.obj"
+"./lcd.obj"
+"./main.obj"
+"./rtc.obj"
+"./rtcs.obj"
+"./systick.obj"
+"./tm4c123gh6pm_startup_ccs.obj"
+"./uart.obj"
+"./ui.obj"
+"../tm4c123gh6pm.cmd"
+-llibc.a

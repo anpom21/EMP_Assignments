@@ -4,14 +4,13 @@
 
 #include "gpio.h"
 #include "tmodel.h"
-#include "SPI.h"
-#include "uart0.h"
 #include "debug.h"
 #include "status_led.h"
 #include "systick_frt.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "file.h"
+
 #include "queue.h"
 #include "lcd.h"
 #include "semphr.h"
@@ -34,6 +33,8 @@ QueueHandle_t q_keypad;
 
 SemaphoreHandle_t lcd_mutex;
 SemaphoreHandle_t keypad_mutex;
+SemaphoreHandle_t mutex_uart_tx;
+SemaphoreHandle_t mutex_uart_rx;
 
 xTimerHandle xTimer_led_freq;
 xTimerHandle xTimer_led_dur;

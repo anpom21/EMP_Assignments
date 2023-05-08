@@ -6,6 +6,8 @@
 
 #include "queue.h"
 #include "semphr.h"
+#include "timers.h"
+
 #include "task.h"
 #include "gpio.h"
 #include "systick.h"
@@ -32,9 +34,13 @@
 QueueHandle_t q_keypad;
 SemaphoreHandle_t keypad_mutex;
 
+xTimerHandle xTimer_led_freq;
+xTimerHandle xTimer_led_dur;
+
 
 static void setupHardware(){
   init_gpio();
+  led_init();
 
   //uart0_init( 9600, 8, 1, 'n' );
   //init_files();
@@ -60,7 +66,7 @@ int main(void)
 
   //start_task( TASK_RTC, rtc_task );
   //start_task( TASK_DISPLAY_RTC, display_rtc_task );
-  //start_task( TASK_LCD, lcd_task );
+  
   //start_task( TASK_UART_TX, uart_tx_task );
   //start_task( TASK_UART_RX, uart_rx_task );
   //start_task( TASK_UI, ui_task );
