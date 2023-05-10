@@ -125,7 +125,9 @@ typedef struct
     INT8U icecream_flavour;
     INT8U icecream_liquid;
     INT8U icecream_amount;
-    INT8U production_time[3];
+    INT8U production_time_hour;
+    INT8U production_time_min;
+    INT8U production_time_sec;
 } icecream;
 
 icecream current_ice;
@@ -374,9 +376,9 @@ void log_data()
     current_ice.icecream_flavour = chosen_flavour;
     current_ice.icecream_amount = icecream_amount;
     current_ice.icecream_liquid = liquid_base;
-    current_ice.production_time[0] = current_time_hour;
-    current_ice.production_time[1] = current_time_min;
-    current_ice.production_time[2] = current_time_sec;
+    current_ice.production_time_hour = current_time_hour;
+    current_ice.production_time_min = current_time_min;
+    current_ice.production_time_sec = current_time_sec;
 
     produced[num_ice] = current_ice;
     num_ice++;
@@ -448,6 +450,18 @@ void producing_task(void *pvParameters)
             vTaskSuspend(NULL);
         }
     }
+}
+
+INT8U *get_log(INT8U index)
+{
+    INT8U logged_icecream[6];
+    logged_icecream[0] = produced[index].icecream_flavour;
+    logged_icecream[1] = produced[index].icecream_liquid;
+    logged_icecream[2] = produced[index].icecream_amount;
+    logged_icecream[3] = produced[index].production_time_hour;
+    logged_icecream[4] = produced[index].production_time_min;
+    logged_icecream[5] = produced[index].production_time_sec;
+    return logged_icecream;
 }
 
 /*extern void icecream_task(void *pvParameters ){
