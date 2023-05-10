@@ -80,6 +80,7 @@ int main(void)
   //start_task( TASK_UART_TX, uart_tx_task );
   //start_task( TASK_UART_RX, uart_rx_task );
   //start_task( TASK_UI, ui_task );
+  xTaskCreate( uart_tx_task, "key_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
   xTaskCreate( uart_rx_task, "key_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
   xTaskCreate( key_task, "key_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
   //start_task( TASK_UI_KEY, ui_key_task );

@@ -26,6 +26,8 @@ uart0.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\
 uart0.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h
 uart0.obj: ../emp_type.h
 uart0.obj: ../uart0.h
+uart0.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/string.h
+uart0.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/file.h
 
 ../uart0.c:
 
@@ -78,4 +80,8 @@ C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment
 ../emp_type.h:
 
 ../uart0.h:
+
+C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/string.h:
+
+C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/file.h:
 

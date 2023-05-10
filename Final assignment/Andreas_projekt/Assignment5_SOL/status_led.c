@@ -29,7 +29,7 @@
 //#include "binary.h"
 #include "status_led.h"
 #include "leds.h"
-
+#include "uart.h"
 
 /*****************************    Defines    *******************************/
 #define PF0		0		// Bit 0
@@ -68,6 +68,7 @@ void status_led_task(void *pvParameters)
 	{
 //    led_flashing(LED_GREEN,5,5);
 		// Toggle status led
+	    uart0_put_q('H');
 	    GPIO_PORTD_DATA_R ^= 0x40;
 		vTaskDelay(1000 / portTICK_RATE_MS); // wait 500 ms.
 	}

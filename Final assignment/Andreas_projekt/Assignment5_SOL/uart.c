@@ -259,7 +259,7 @@ extern void uart0_init( INT32U baud_rate, INT8U databits, INT8U stopbits, INT8U 
   UART0_CTL_R  |= (UART_CTL_UARTEN | UART_CTL_TXE );  // Enable UART
 
   q_uart_rx = xQueueCreate(128, sizeof(INT8U));
-  q_uart_tx = xQueueCreate(128, sizeof(INT8U));
+  q_uart_tx = xQueueCreate(255, sizeof(INT16U));
 
   mutex_uart_tx = xSemaphoreCreateMutex();
   mutex_uart_tx = xSemaphoreCreateMutex();

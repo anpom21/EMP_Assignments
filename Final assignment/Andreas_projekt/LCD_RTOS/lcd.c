@@ -234,9 +234,10 @@ void clr_LCD()
   
   if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
   wr_ctrl_LCD( 0x01 );
+  xSemaphoreGive( lcd_mutex );
   }
     // 4: Give back mutex
-        xSemaphoreGive( lcd_mutex );
+        
         
 }
 

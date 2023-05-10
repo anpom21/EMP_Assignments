@@ -30,6 +30,8 @@
 
 /*****************************   Functions   *******************************/
 BOOLEAN uart0_put_q( INT8U );
+BOOLEAN uart0_put_string( char a_string[]);
+void uart0_put_return(INT8U length);
 BOOLEAN uart0_get_q( INT8U* );
 
 

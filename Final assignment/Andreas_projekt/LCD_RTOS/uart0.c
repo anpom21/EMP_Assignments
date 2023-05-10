@@ -28,6 +28,7 @@
 
 #include "emp_type.h"
 #include "uart0.h"
+#include <string.h>
 /*****************************    Defines    *******************************/
 
 /*****************************   Constants   *******************************/
@@ -163,7 +164,7 @@ extern void uart0_init( INT32U baud_rate, INT8U databits, INT8U stopbits, INT8U 
 
   UART0_CTL_R  |= (UART_CTL_UARTEN | UART_CTL_TXE );  // Enable UART
 
-  q_uart_tx = xQueueCreate(128, sizeof(INT8U));
+  q_uart_tx = xQueueCreate(255, sizeof(INT16U));
   q_uart_rx = xQueueCreate(128, sizeof(INT8U));
 
   mutex_uart_rx = xSemaphoreCreateMutex();
@@ -172,11 +173,13 @@ extern void uart0_init( INT32U baud_rate, INT8U databits, INT8U stopbits, INT8U 
 
 BOOLEAN uart0_put_q( INT8U ch )
 {
-
+  BOOLEAN result = 0;
   if( xSemaphoreTake( mutex_uart_tx, ( TickType_t ) 10 ) == pdTRUE ){
-    xQueueSend( q_uart_tx, &ch, portMAX_DELAY );
+
+    result = xQueueSend( q_uart_tx, &ch, portMAX_DELAY ) == pdTRUE;
+    xSemaphoreGive(mutex_uart_tx);
   }
-  return( 1 );
+  return( result );
 }
 
 BOOLEAN uart0_get_q( INT8U *pch )
@@ -225,7 +228,45 @@ void uart0_putc( INT8U ch )
 *   Function : See module specification (.h-file).
 *****************************************************************************/
 {
+
   UART0_DR_R = ch;
+}
+
+BOOLEAN uart0_put_string( char a_string[])
+/*****************************************************************************
+*   Function : See module specification (.h-file).
+*****************************************************************************/
+{
+    BOOLEAN result = 0;
+    INT16U i = 0;
+    INT16U le = strlen(a_string);
+
+    while (i != strlen(a_string)){
+
+        while (!uart0_tx_rdy());
+        uart0_putc(a_string[i]);
+        i++;
+
+    }
+  result = 1;
+
+  return result;
+
+}
+
+
+void uart0_put_return(INT8U length){
+
+  
+
+  INT8U i;
+  for (i = length; i < 80; i++)
+  {
+    uart0_put_q(' ');
+  }
+
+  
+  
 }
 
 extern void uart_rx_task(void *pvParameters)
@@ -249,7 +290,9 @@ extern void uart_rx_task(void *pvParameters)
     xSemaphoreGive(mutex_uart_rx);
   }
   else
-  vTaskDelay(5 / portTICK_RATE_MS); // wait 5 ms.
+    vTaskDelay(100 / portTICK_RATE_MS); // wait 5 ms.
+
+  vTaskDelay(100 / portTICK_RATE_MS);
   }
 }
 
@@ -262,15 +305,21 @@ extern void uart_tx_task(void *pvParameters)
 {
   INT8U ch; 
   while(1){
+
     if( uxQueueMessagesWaiting(q_uart_tx)){
+
       if( xSemaphoreTake( mutex_uart_tx, ( TickType_t ) 10 ) == pdTRUE ){
         if( xQueueReceive( q_uart_tx, &ch, 0 ) == pdTRUE){
+
           while(!uart0_tx_rdy());
           UART0_DR_R = ch;
         }
         xSemaphoreGive(mutex_uart_tx);
       }
+    }else{
+      vTaskDelay(10 / portTICK_RATE_MS);
     }
+    vTaskDelay(10 / portTICK_RATE_MS);
   }
 }
 

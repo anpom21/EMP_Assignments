@@ -26,19 +26,27 @@
 #define MED_PRIO  2
 #define HIGH_PRIO 3
 
-// Create queues
+// Queues
 QueueHandle_t q_uart_tx;
 QueueHandle_t q_uart_rx;
 QueueHandle_t q_lcd;
 QueueHandle_t q_keypad;
 
+// Semaphores
 SemaphoreHandle_t lcd_mutex;
 SemaphoreHandle_t keypad_mutex;
 SemaphoreHandle_t mutex_uart_tx;
 SemaphoreHandle_t mutex_uart_rx;
+SemaphoreHandle_t mutex_liquid_base;
+SemaphoreHandle_t mutex_churning_time;
+SemaphoreHandle_t mutex_time_of_day;
+SemaphoreHandle_t mutex_production_time;
 
+// Timers
 xTimerHandle xTimer_led_freq;
 xTimerHandle xTimer_led_dur;
+
+
 
 
 
@@ -61,7 +69,7 @@ static void setupHardware(void)
   lcd_init();
   keypad_init();
   led_init();
-  
+  settings_init();
 
 
 
@@ -71,9 +79,9 @@ static void setupHardware(void)
 int main(void)
 {
     setupHardware();
-    xTaskCreate( keypad_task, "keypad_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
-    xTaskCreate( lcd_example, "lcd_example", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
-    xTaskCreate( lcd_task, "lcd_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
+    //xTaskCreate( keypad_task, "keypad_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
+    //xTaskCreate( lcd_example, "lcd_example", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
+    //xTaskCreate( lcd_task, "lcd_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
     xTaskCreate( uart_tx_task, "uart_tx_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
     xTaskCreate( uart_rx_task, "uart_rx_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, NULL );
 
