@@ -31,6 +31,7 @@
 /*****************************   Variables   *******************************/
 /*****************************   Functions   *******************************/
 
+
 BOOLEAN sw1_pushed()
 {
   return( !(GPIO_PORTF_DATA_R & 0x10) );     // SW1 at PF4
@@ -40,3 +41,13 @@ BOOLEAN sw2_pushed()
 {
   return( !(GPIO_PORTF_DATA_R & 0x01) );     // SW2 at PF0
 }
+
+void button_task(void *pvParameters){
+
+  while (1)
+  {
+    /* code */
+  }
+  
+}
+

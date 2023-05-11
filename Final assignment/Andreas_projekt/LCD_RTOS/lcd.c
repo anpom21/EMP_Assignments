@@ -33,7 +33,7 @@
 
 #include "projdefs.h"
 #include "portmacro.h"
-#include "switches.h"
+#include "buttons.h"
 #include "leds.h"
 
 /*****************************    Defines    *******************************/
@@ -70,6 +70,7 @@ const INT8U LCD_init_sequense[]=
 
 extern QueueHandle_t q_lcd;
 extern SemaphoreHandle_t lcd_mutex;
+extern SemaphoreHandle_t lcd_write_mutex;
 
 enum LCD_states LCD_state = LCD_POWER_UP;
 INT8U LCD_init;
@@ -86,6 +87,7 @@ void lcd_init()
 
     q_lcd = xQueueCreate(128, sizeof(INT8U));
     lcd_mutex = xSemaphoreCreateMutex();
+    lcd_write_mutex = xSemaphoreCreateMutex();
     clr_LCD();
     //lcd_write("Keypad er klar!",0,0);
 }
@@ -98,7 +100,7 @@ INT8U wr_ch_LCD( INT8U Ch )
 *****************************************************************************/
 {
   xQueueSend( q_lcd, &Ch, portMAX_DELAY );
-  vTaskDelay(1 / portTICK_RATE_MS);
+  vTaskDelay(5 / portTICK_RATE_MS);
   return ( 1 );
 }
 
@@ -125,10 +127,6 @@ void move_LCD( INT8U x, INT8U y )
   Pos |= 0x80;
   wr_ch_LCD( ESC );
   wr_ch_LCD( Pos );
-
-
-
-
 
 
 }
@@ -232,9 +230,11 @@ void clr_LCD()
 ******************************************************************************/
 {
   
-  if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+  if( xSemaphoreTake( lcd_write_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+   // wait 500 ms.
   wr_ctrl_LCD( 0x01 );
-  xSemaphoreGive( lcd_mutex );
+  
+  xSemaphoreGive( lcd_write_mutex );
   }
     // 4: Give back mutex
         
@@ -367,10 +367,13 @@ extern void lcd_task(void *pvParameters )
 
 
 void lcd_write(INT8U* string, INT8U x, INT8U y){
-  if( xSemaphoreTake( lcd_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+  
+  if( xSemaphoreTake( lcd_write_mutex, ( TickType_t ) 10 ) == pdTRUE ){
+    
     move_LCD(x,y);
     wr_str_LCD(string);
-    xSemaphoreGive( lcd_mutex );
+    xSemaphoreGive( lcd_write_mutex );
+    vTaskDelay(5 / portTICK_RATE_MS);
   }
 
 

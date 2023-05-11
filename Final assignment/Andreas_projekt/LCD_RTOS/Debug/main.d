@@ -13,11 +13,6 @@ main.obj: C:/ti/ccs1110/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine
 main.obj: C:/ti/ccs1110/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/_stdint.h
 main.obj: ../tm4c123gh6pm.h
 main.obj: ../emp_type.h
-main.obj: ../gpio.h
-main.obj: ../tmodel.h
-main.obj: ../debug.h
-main.obj: ../status_led.h
-main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/port/TivaM4/systick_frt.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/FreeRTOS.h
 main.obj: C:/ti/ccs1110/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stddef.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/port/TivaM4/FreeRTOSConfig.h
@@ -26,17 +21,26 @@ main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ 
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/deprecated_definitions.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/port/TivaM4/portmacro.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/mpu_wrappers.h
+main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/queue.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/task.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/list.h
-main.obj: ../file.h
-main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/queue.h
-main.obj: ../lcd.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h
-main.obj: ../key.h
+main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/port/TivaM4/systick_frt.h
 main.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/timers.h
+main.obj: ../SPI.h
+main.obj: ../adc.h
+main.obj: ../clock.h
+main.obj: ../file.h
+main.obj: ../gpio.h
+main.obj: ../icecream.h
+main.obj: ../key.h
+main.obj: ../lcd.h
 main.obj: ../leds.h
-main.obj: ../ice_cream_settings.h
+main.obj: ../rotary_encoder.h
+main.obj: ../status_led.h
+main.obj: ../tmodel.h
 main.obj: ../uart0.h
+main.obj: ../logging.h
 
 ../main.c:
 
@@ -64,16 +68,6 @@ C:/ti/ccs1110/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/_stdint.h:
 
 ../emp_type.h:
 
-../gpio.h:
-
-../tmodel.h:
-
-../debug.h:
-
-../status_led.h:
-
-C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/port/TivaM4/systick_frt.h:
-
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/FreeRTOS.h:
 
 C:/ti/ccs1110/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stddef.h:
@@ -90,25 +84,43 @@ C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment
 
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/mpu_wrappers.h:
 
+C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/queue.h:
+
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/task.h:
 
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/list.h:
 
-../file.h:
-
-C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/queue.h:
-
-../lcd.h:
-
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h:
 
-../key.h:
+C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/port/TivaM4/systick_frt.h:
 
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/timers.h:
 
+../SPI.h:
+
+../adc.h:
+
+../clock.h:
+
+../file.h:
+
+../gpio.h:
+
+../icecream.h:
+
+../key.h:
+
+../lcd.h:
+
 ../leds.h:
 
-../ice_cream_settings.h:
+../rotary_encoder.h:
+
+../status_led.h:
+
+../tmodel.h:
 
 ../uart0.h:
+
+../logging.h:
 

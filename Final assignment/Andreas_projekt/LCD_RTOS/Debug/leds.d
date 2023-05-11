@@ -26,6 +26,7 @@ leds.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ 
 leds.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/timers.h
 leds.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/task.h
 leds.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/list.h
+leds.obj: ../lcd.h
 
 ../leds.c:
 
@@ -78,4 +79,6 @@ C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/task.h:
 
 C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/list.h:
+
+../lcd.h:
 

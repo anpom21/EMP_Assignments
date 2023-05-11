@@ -26,6 +26,7 @@
 #include "FreeRTOS.h"
 #include "projdefs.h"
 #include "timers.h"
+#include "lcd.h"
 
 /******************************* Defines ***********************************/
 
@@ -35,6 +36,7 @@
 /***************************** Variables ***********************************/
 extern xTimerHandle xTimer_led_freq;
 extern xTimerHandle xTimer_led_dur;
+extern xTimer_producing_dots;
 
 INT8U global_led;
 INT8U timer_state = TIMER_IDLE;
@@ -49,10 +51,36 @@ static void led_freq_callback(xTimerHandle pxTimer){
 
 static void led_dur_callback(xTimerHandle pxTimer){
   xTimerStop(xTimer_led_freq,10);
-  turn_led( global_led, LED_OFF );
+  turn_led( global_led, LED_ON );
   timer_state = TIMER_DONE;
+
+
+};
+static void producing_dots_callback(xTimerHandle pxTimer){
+    lcd_write("Producing...",0,0);
+    static INT8U dots = 2;
+
+    switch (dots % 3)
+    {
+    case 0:
+        lcd_write("Producing.  ",0,0);
+        break;
+    case 1:
+        lcd_write("Producing.. ",0,0);
+        break;
+    case 2:
+        lcd_write("Producing...",0,0);
+        break;
+    default:
+        lcd_write("ERROR",0,0);
+        break;
+    }
+    dots++;
 };
 
+void ice_cream_init(){
+
+}
 
 
 void led_init(){
@@ -71,6 +99,14 @@ void led_init(){
   pdFALSE, /* auto reload */
   (void*)1, /* timer ID */
   led_dur_callback); /* callback */
+
+
+   xTimer_producing_dots = xTimerCreate(
+  "timer_dots", /* name */
+  pdMS_TO_TICKS(620), /* period/time */
+  pdTRUE, /* auto reload */
+  (void*)1, /* timer ID */
+  producing_dots_callback); /* callback */
   
   // Turn ON all LEDs
   turn_led( LED_RED, LED_ON );
@@ -89,20 +125,26 @@ BOOLEAN led_flashing(INT8U led, float frequency_hz, INT8U duration_sec){
 
   // Check if timer is idle
   if(timer_state == TIMER_IDLE){
+	lcd_write("Producing.",0,0);
     // Change time period to the entered frequency
     xTimerChangePeriod(xTimer_led_freq,pdMS_TO_TICKS(1000 * ( 1/frequency_hz )),10);
 
     // Change time period to the entered duration
     xTimerChangePeriod(xTimer_led_dur,pdMS_TO_TICKS(1000 * duration_sec),10);
 
+    
+    xTimerChangePeriod(xTimer_producing_dots,pdMS_TO_TICKS(1000 * ( 1/frequency_hz )),10);
+
     // Start timers
     xTimerStart(xTimer_led_freq, 10);
     xTimerStart(xTimer_led_dur, 10);
+	  xTimerStart(xTimer_producing_dots, 10);
 
     // Change timer state
     timer_state = TIMER_RUNNING;
   }else if (timer_state == TIMER_DONE)
   {
+	xTimerStop(xTimer_producing_dots,10);
     result = 1;
     timer_state = TIMER_IDLE;
   }

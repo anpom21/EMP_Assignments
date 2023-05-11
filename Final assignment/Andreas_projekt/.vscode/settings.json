@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "rotary_encoder.h": "c",
+        "icecream.h": "c",
+        "buttons.h": "c"
+    }
+}

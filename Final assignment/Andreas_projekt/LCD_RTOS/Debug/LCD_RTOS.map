@@ -1,33 +1,33 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.5                     
 ******************************************************************************
->> Linked Wed May 10 09:58:07 2023
+>> Linked Thu May 11 19:32:14 2023
 
 OUTPUT FILE NAME:   <LCD_RTOS.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00006811
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000751d
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00040000  00006c5c  000393a4  R  X
-  SRAM                  20000000   00008000  00001fc1  0000603f  RW X
+  FLASH                 00000000   00040000  00007b18  000384e8  R  X
+  SRAM                  20000000   00008000  00003da8  00004258  RW X
 
 
 SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00006c60   00006c60    r-x
+00000000    00000000    00007b18   00007b18    r-x
   00000000    00000000    0000026c   0000026c    r-- .intvecs
-  0000026c    0000026c    00006664   00006664    r-x .text
-  000068d0    000068d0    0000032c   0000032c    r-- .const
-  00006c00    00006c00    00000060   00000060    r-- .cinit
-20000000    20000000    00001fc5   00000000    rw-
-  20000000    20000000    00001d4c   00000000    rw- .bss
-  20001d50    20001d50    00000200   00000000    rw- .stack
-  20001f50    20001f50    00000075   00000000    rw- .data
+  0000026c    0000026c    000073a4   000073a4    r-x .text
+  00007610    00007610    000004c0   000004c0    r-- .const
+  00007ad0    00007ad0    00000048   00000048    r-- .cinit
+20000000    20000000    00003dab   00000000    rw-
+  20000000    20000000    00003b3d   00000000    rw- .bss
+  20003b40    20003b40    00000200   00000000    rw- .stack
+  20003d40    20003d40    0000006b   00000000    rw- .data
 
 
 SECTION ALLOCATION MAP
@@ -38,125 +38,151 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    0000026c     
                   00000000    0000026c     startup_frt.obj (.intvecs)
 
-.text      0    0000026c    00006664     
+.text      0    0000026c    000073a4     
                   0000026c    00001dd8     tasks.obj (.text)
-                  00002044    00001518     ice_cream_settings.obj (.text)
-                  0000355c    00000c46     queue.obj (.text)
-                  000041a2    00000002     --HOLE-- [fill = 0]
-                  000041a4    000005e8     timers.obj (.text)
-                  0000478c    00000498     lcd.obj (.text)
-                  00004c24    000003b4     uart0.obj (.text)
-                  00004fd8    000002f4     rtsv7M4_T_le_v4SPD16_eabi.lib : e_log10.c.obj (.text:log10)
-                  000052cc    000002f0     leds.obj (.text)
-                  000055bc    00000270     key.obj (.text)
-                  0000582c    000001d8     heap_2.obj (.text)
-                  00005a04    000001b6     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_add_t2.asm.obj (.text)
-                  00005bba    00000002     --HOLE-- [fill = 0]
-                  00005bbc    0000013c     port.obj (.text)
-                  00005cf8    00000136     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_div_t2.asm.obj (.text)
-                  00005e2e    0000012a     list.obj (.text)
-                  00005f58    000000fc     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_mul_t2.asm.obj (.text)
-                  00006054    000000f8                                   : s_floor.c.obj (.text:floor)
-                  0000614c    000000da     portasm.obj (.text)
-                  00006226    00000002     --HOLE-- [fill = 0]
-                  00006228    000000d8     main.obj (.text)
-                  00006300    000000c8     file.obj (.text)
-                  000063c8    000000a8     gpio.obj (.text)
-                  00006470    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
-                  0000650c    00000086                                   : fd_cmp_t2.asm.obj (.text:__aeabi_cdrcmple)
-                  00006592    0000007a                                   : memset_t2.asm.obj (.text)
-                  0000660c    0000006c     systick_frt.obj (.text)
-                  00006678    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  000066e0    00000058     status_led.obj (.text)
-                  00006738    0000004c     rtsv7M4_T_le_v4SPD16_eabi.lib : atoi.c.obj (.text:atoi)
-                  00006784    00000048                                   : fd_toi_t2.asm.obj (.text)
-                  000067cc    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  00006810    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
-                  00006844    0000002e                                   : i_tofd_t2.asm.obj (.text)
-                  00006872    00000014                                   : strcpy.c.obj (.text:strcpy)
-                  00006886    00000014                                   : strlen.c.obj (.text:strlen)
-                  0000689a    0000000e                                   : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  000068a8    0000000c                                   : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init)
-                  000068b4    0000000c     startup_frt.obj (.text)
-                  000068c0    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.text:__aeabi_errno_addr)
-                  000068c8    00000004                                   : pre_init.c.obj (.text:_system_pre_init)
-                  000068cc    00000004                                   : exit.c.obj (.text:abort:abort)
+                  00002044    000014f4     logging.obj (.text)
+                  00003538    00000c46     queue.obj (.text)
+                  0000417e    00000002     --HOLE-- [fill = 0]
+                  00004180    00000758     icecream.obj (.text)
+                  000048d8    000005e8     timers.obj (.text)
+                  00004ec0    000004ac     lcd.obj (.text)
+                  0000536c    00000408     uart0.obj (.text)
+                  00005774    000003f8     leds.obj (.text)
+                  00005b6c    000002f4     rtsv7M4_T_le_v4SPD16_eabi.lib : e_log10.c.obj (.text:log10)
+                  00005e60    000002d4     main.obj (.text)
+                  00006134    00000270     key.obj (.text)
+                  000063a4    000001d8     heap_2.obj (.text)
+                  0000657c    000001b6     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_add_t2.asm.obj (.text)
+                  00006732    00000002     --HOLE-- [fill = 0]
+                  00006734    0000013c     port.obj (.text)
+                  00006870    00000136     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_div_t2.asm.obj (.text)
+                  000069a6    0000012a     list.obj (.text)
+                  00006ad0    00000124     rotary_encoder.obj (.text)
+                  00006bf4    000000fc     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_mul_t2.asm.obj (.text)
+                  00006cf0    000000f8                                   : s_floor.c.obj (.text:floor)
+                  00006de8    000000da     portasm.obj (.text)
+                  00006ec2    00000002     --HOLE-- [fill = 0]
+                  00006ec4    000000d8     clock.obj (.text)
+                  00006f9c    000000c8     file.obj (.text)
+                  00007064    000000a8     gpio.obj (.text)
+                  0000710c    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
+                  000071a8    00000086                                   : fd_cmp_t2.asm.obj (.text:__aeabi_cdrcmple)
+                  0000722e    0000007a                                   : memset_t2.asm.obj (.text)
+                  000072a8    00000070     adc.obj (.text)
+                  00007318    0000006c     systick_frt.obj (.text)
+                  00007384    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  000073ec    00000058     status_led.obj (.text)
+                  00007444    0000004c     rtsv7M4_T_le_v4SPD16_eabi.lib : atoi.c.obj (.text:atoi)
+                  00007490    00000048                                   : fd_toi_t2.asm.obj (.text)
+                  000074d8    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  0000751c    00000034                                   : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  00007550    00000034     buttons.obj (.text)
+                  00007584    0000002e     rtsv7M4_T_le_v4SPD16_eabi.lib : i_tofd_t2.asm.obj (.text)
+                  000075b2    00000014                                   : strcpy.c.obj (.text:strcpy)
+                  000075c6    00000014                                   : strlen.c.obj (.text:strlen)
+                  000075da    0000000e                                   : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  000075e8    0000000c                                   : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init)
+                  000075f4    0000000c     startup_frt.obj (.text)
+                  00007600    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.text:__aeabi_errno_addr)
+                  00007608    00000004                                   : pre_init.c.obj (.text:_system_pre_init)
+                  0000760c    00000004                                   : exit.c.obj (.text:abort:abort)
 
-.const     0    000068d0    0000032c     
-                  000068d0    00000192     ice_cream_settings.obj (.const:.string)
-                  00006a62    00000101     rtsv7M4_T_le_v4SPD16_eabi.lib : ctype.c.obj (.const:.string:_ctypes_)
-                  00006b63    00000050     ice_cream_settings.obj (.const:.string:$P$T1$2)
-                  00006bb3    00000029     ice_cream_settings.obj (.const:.string:$P$T0$1)
-                  00006bdc    0000000c     key.obj (.const:$P$T0$1)
-                  00006be8    0000000a     lcd.obj (.const:.string:LCD_init_sequense)
-                  00006bf2    00000002     --HOLE-- [fill = 0]
-                  00006bf4    00000004     port.obj (.const)
-                  00006bf8    00000004     tasks.obj (.const)
+.const     0    00007610    000004c0     
+                  00007610    00000326     logging.obj (.const:.string)
+                  00007936    00000101     rtsv7M4_T_le_v4SPD16_eabi.lib : ctype.c.obj (.const:.string:_ctypes_)
+                  00007a37    00000050     logging.obj (.const:.string:$P$T2$3)
+                  00007a87    00000029     logging.obj (.const:.string:$P$T1$2)
+                  00007ab0    0000000c     key.obj (.const:$P$T0$1)
+                  00007abc    0000000a     lcd.obj (.const:.string:LCD_init_sequense)
+                  00007ac6    00000001     logging.obj (.const:.string:$P$T0$1)
+                  00007ac7    00000001     --HOLE-- [fill = 0]
+                  00007ac8    00000004     port.obj (.const)
+                  00007acc    00000004     tasks.obj (.const)
 
-.cinit     0    00006c00    00000060     
-                  00006c00    00000035     (.cinit..data.load) [load image, compression = lzss]
-                  00006c35    00000003     --HOLE-- [fill = 0]
-                  00006c38    0000000c     (__TI_handler_table)
-                  00006c44    00000004     --HOLE-- [fill = 0]
-                  00006c48    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  00006c50    00000010     (__TI_cinit_table)
+.cinit     0    00007ad0    00000048     
+                  00007ad0    0000001d     (.cinit..data.load) [load image, compression = lzss]
+                  00007aed    00000003     --HOLE-- [fill = 0]
+                  00007af0    0000000c     (__TI_handler_table)
+                  00007afc    00000004     --HOLE-- [fill = 0]
+                  00007b00    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00007b08    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
-.bss       0    20000000    00001d4c     UNINITIALIZED
-                  20000000    00001b58     heap_2.obj (.bss:ucHeap)
-                  20001b58    000000c8     tasks.obj (.bss:pxReadyTasksLists)
-                  20001c20    00000040     (.common:pof)
-                  20001c60    00000014     timers.obj (.bss:xActiveTimerList1)
-                  20001c74    00000014     timers.obj (.bss:xActiveTimerList2)
-                  20001c88    00000014     tasks.obj (.bss:xDelayedTaskList1)
-                  20001c9c    00000014     tasks.obj (.bss:xDelayedTaskList2)
-                  20001cb0    00000014     tasks.obj (.bss:xPendingReadyList)
-                  20001cc4    00000014     tasks.obj (.bss:xSuspendedTaskList)
-                  20001cd8    00000014     tasks.obj (.bss:xTasksWaitingTermination)
-                  20001cec    00000008     tasks.obj (.bss)
-                  20001cf4    00000008     timers.obj (.bss)
-                  20001cfc    00000008     heap_2.obj (.bss:xEnd)
-                  20001d04    00000008     heap_2.obj (.bss:xStart)
-                  20001d0c    00000004     (.common:keypad_mutex)
-                  20001d10    00000004     (.common:lcd_mutex)
-                  20001d14    00000004     (.common:mutex_churning_time)
-                  20001d18    00000004     (.common:mutex_liquid_base)
-                  20001d1c    00000004     (.common:mutex_production_time)
-                  20001d20    00000004     (.common:mutex_time_of_day)
-                  20001d24    00000004     (.common:mutex_uart_rx)
-                  20001d28    00000004     (.common:mutex_uart_tx)
-                  20001d2c    00000004     (.common:q_keypad)
-                  20001d30    00000004     (.common:q_lcd)
-                  20001d34    00000004     (.common:q_uart_rx)
-                  20001d38    00000004     (.common:q_uart_tx)
-                  20001d3c    00000004     (.common:xTimer_led_dur)
-                  20001d40    00000004     (.common:xTimer_led_freq)
-                  20001d44    00000001     (.common:LCD_init)
-                  20001d45    00000001     (.common:churning_time_chocolate)
-                  20001d46    00000001     (.common:churning_time_strawberry)
-                  20001d47    00000001     (.common:global_led)
-                  20001d48    00000001     (.common:inp)
-                  20001d49    00000001     (.common:lb_frequency_coco)
-                  20001d4a    00000001     (.common:lb_frequency_milk)
-                  20001d4b    00000001     (.common:lb_frequency_oat)
+.bss       0    20000000    00003b3d     UNINITIALIZED
+                  20000000    000036b0     heap_2.obj (.bss:ucHeap)
+                  200036b0    00000258     (.common:produced)
+                  20003908    000000c8     tasks.obj (.bss:pxReadyTasksLists)
+                  200039d0    00000040     (.common:pof)
+                  20003a10    00000014     timers.obj (.bss:xActiveTimerList1)
+                  20003a24    00000014     timers.obj (.bss:xActiveTimerList2)
+                  20003a38    00000014     tasks.obj (.bss:xDelayedTaskList1)
+                  20003a4c    00000014     tasks.obj (.bss:xDelayedTaskList2)
+                  20003a60    00000014     tasks.obj (.bss:xPendingReadyList)
+                  20003a74    00000014     tasks.obj (.bss:xSuspendedTaskList)
+                  20003a88    00000014     tasks.obj (.bss:xTasksWaitingTermination)
+                  20003a9c    00000008     tasks.obj (.bss)
+                  20003aa4    00000008     timers.obj (.bss)
+                  20003aac    00000008     heap_2.obj (.bss:xEnd)
+                  20003ab4    00000008     heap_2.obj (.bss:xStart)
+                  20003abc    00000006     (.common:current_ice)
+                  20003ac2    00000001     (.common:LCD_init)
+                  20003ac3    00000001     (.common:current_time_hour)
+                  20003ac4    00000004     (.common:TchooseAmount)
+                  20003ac8    00000004     (.common:Tenc)
+                  20003acc    00000004     (.common:Tflavour)
+                  20003ad0    00000004     (.common:Tkey)
+                  20003ad4    00000004     (.common:Tliquid)
+                  20003ad8    00000004     (.common:Tlocked)
+                  20003adc    00000004     (.common:Tlogging)
+                  20003ae0    00000004     (.common:TplaceCup)
+                  20003ae4    00000004     (.common:Tproducing)
+                  20003ae8    00000004     (.common:Tuart_rx)
+                  20003aec    00000004     (.common:Tuart_tx)
+                  20003af0    00000004     (.common:keypad_mutex)
+                  20003af4    00000004     (.common:lcd_mutex)
+                  20003af8    00000004     (.common:lcd_write_mutex)
+                  20003afc    00000004     (.common:mutex_churning_time)
+                  20003b00    00000004     (.common:mutex_liquid_base)
+                  20003b04    00000004     (.common:mutex_production_time)
+                  20003b08    00000004     (.common:mutex_time_of_day)
+                  20003b0c    00000004     (.common:mutex_uart_rx)
+                  20003b10    00000004     (.common:mutex_uart_send)
+                  20003b14    00000004     (.common:mutex_uart_tx)
+                  20003b18    00000004     (.common:q_keypad)
+                  20003b1c    00000004     (.common:q_lcd)
+                  20003b20    00000004     (.common:q_uart_rx)
+                  20003b24    00000004     (.common:q_uart_tx)
+                  20003b28    00000004     (.common:xTimer_led_dur)
+                  20003b2c    00000004     (.common:xTimer_led_freq)
+                  20003b30    00000004     (.common:xTimer_producing_dots)
+                  20003b34    00000001     (.common:current_time_min)
+                  20003b35    00000001     (.common:current_time_sec)
+                  20003b36    00000001     (.common:global_led)
+                  20003b37    00000001     (.common:key)
+                  20003b38    00000001     (.common:rot_cnt)
+                  20003b39    00000001     (.common:rot_pressed)
+                  20003b3a    00000001     (.common:run_time_hour)
+                  20003b3b    00000001     (.common:run_time_min)
+                  20003b3c    00000001     (.common:run_time_sec)
 
-.data      0    20001f50    00000075     UNINITIALIZED
-                  20001f50    00000034     tasks.obj (.data)
-                  20001f84    0000001e     ice_cream_settings.obj (.data:log_)
-                  20001fa2    00000002     key.obj (.data)
-                  20001fa4    0000000c     timers.obj (.data)
-                  20001fb0    00000008     heap_2.obj (.data)
-                  20001fb8    00000004     port.obj (.data)
-                  20001fbc    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.data)
-                  20001fc0    00000003     lcd.obj (.data)
-                  20001fc3    00000001     ice_cream_settings.obj (.data)
-                  20001fc4    00000001     leds.obj (.data)
+.data      0    20003d40    0000006b     UNINITIALIZED
+                  20003d40    00000034     tasks.obj (.data)
+                  20003d74    0000000f     icecream.obj (.data)
+                  20003d83    00000001     logging.obj (.data)
+                  20003d84    0000000c     timers.obj (.data)
+                  20003d90    00000008     heap_2.obj (.data)
+                  20003d98    00000004     port.obj (.data)
+                  20003d9c    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.data)
+                  20003da0    00000004     uart0.obj (.data)
+                  20003da4    00000003     lcd.obj (.data)
+                  20003da7    00000002     key.obj (.data)
+                  20003da9    00000002     leds.obj (.data)
 
-.stack     0    20001d50    00000200     UNINITIALIZED
-                  20001d50    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
-                  20001d54    000001fc     --HOLE--
+.stack     0    20003b40    00000200     UNINITIALIZED
+                  20003b40    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
+                  20003b44    000001fc     --HOLE--
 
 __llvm_prf_cnts 
 *          0    20000000    00000000     UNINITIALIZED
@@ -166,22 +192,27 @@ MODULE SUMMARY
        Module                       code    ro data   rw data
        ------                       ----    -------   -------
     .\
-       ice_cream_settings.obj       5400    523       37     
-       lcd.obj                      1176    10        4      
-       uart0.obj                    948     0         0      
-       leds.obj                     752     0         2      
+       logging.obj                  5364    928       1      
+       icecream.obj                 1880    0         622    
+       lcd.obj                      1196    10        4      
+       uart0.obj                    1032    0         4      
+       leds.obj                     1016    0         3      
+       main.obj                     724     0         112    
        key.obj                      624     12        2      
-       main.obj                     216     0         56     
+       rotary_encoder.obj           292     0         2      
        file.obj                     200     0         64     
+       clock.obj                    216     0         6      
        gpio.obj                     168     0         0      
+       adc.obj                      112     0         0      
        status_led.obj               88      0         0      
+       buttons.obj                  52      0         0      
     +--+----------------------------+-------+---------+---------+
-       Total:                       9572    545       165    
+       Total:                       12964   950       820    
                                                              
     .\frt10\port\MemMang\
-       heap_2.obj                   472     0         7024   
+       heap_2.obj                   472     0         14024  
     +--+----------------------------+-------+---------+---------+
-       Total:                       472     0         7024   
+       Total:                       472     0         14024  
                                                              
     .\frt10\port\TivaM4\
        startup_frt.obj              12      620       0      
@@ -226,21 +257,21 @@ MODULE SUMMARY
        Total:                       2916    257       4      
                                                              
        Stack:                       0       0         512    
-       Linker Generated:            0       89        0      
+       Linker Generated:            0       65        0      
     +--+----------------------------+-------+---------+---------+
-       Grand Total:                 26206   1519      8129   
+       Grand Total:                 29598   1900      15784  
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00006c50 records: 2, size/record: 8, table size: 16
-	.data: load addr=00006c00, load size=00000035 bytes, run addr=20001f50, run size=00000075 bytes, compression=lzss
-	.bss: load addr=00006c48, load size=00000008 bytes, run addr=20000000, run size=00001d4c bytes, compression=zero_init
+__TI_cinit_table @ 00007b08 records: 2, size/record: 8, table size: 16
+	.data: load addr=00007ad0, load size=0000001d bytes, run addr=20003d40, run size=0000006b bytes, compression=lzss
+	.bss: load addr=00007b00, load size=00000008 bytes, run addr=20000000, run size=00003b3d bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00006c38 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00007af0 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -250,177 +281,229 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                               
 -------   ----                               
-000068cd  C$$EXIT                            
-20001fa3  KEYPAD_state                       
-20001d44  LCD_init                           
-00006be8  LCD_init_sequense                  
-20001fc0  LCD_state                          
-000068b5  ResetISR                           
-000049df  Set_cursor                         
-20001f50  __STACK_END                        
+0000760d  C$$EXIT                            
+20003da8  KEYPAD_state                       
+20003ac2  LCD_init                           
+00007abc  LCD_init_sequense                  
+20003da4  LCD_state                          
+000075f5  ResetISR                           
+0000511d  Set_cursor                         
+20003ac4  TchooseAmount                      
+20003ac8  Tenc                               
+20003acc  Tflavour                           
+20003ad0  Tkey                               
+20003ad4  Tliquid                            
+20003ad8  Tlocked                            
+20003adc  Tlogging                           
+20003ae0  TplaceCup                          
+20003ae4  Tproducing                         
+20003ae8  Tuart_rx                           
+20003aec  Tuart_tx                           
+20003d40  __STACK_END                        
 00000200  __STACK_SIZE                       
-20001f50  __STACK_TOP                        
-00006c50  __TI_CINIT_Base                    
-00006c60  __TI_CINIT_Limit                   
-00006c38  __TI_Handler_Table_Base            
-00006c44  __TI_Handler_Table_Limit           
-000067cd  __TI_auto_init_nobinit_nopinit     
-00006679  __TI_decompress_lzss               
-0000689b  __TI_decompress_none               
+20003d40  __STACK_TOP                        
+00007b08  __TI_CINIT_Base                    
+00007b18  __TI_CINIT_Limit                   
+00007af0  __TI_Handler_Table_Base            
+00007afc  __TI_Handler_Table_Limit           
+000074d9  __TI_auto_init_nobinit_nopinit     
+00007385  __TI_decompress_lzss               
+000075db  __TI_decompress_none               
 ffffffff  __TI_pprof_out_hndl                
 ffffffff  __TI_prof_data_size                
 ffffffff  __TI_prof_data_start               
 00000000  __TI_static_base__                 
-000068a9  __TI_zero_init                     
-0000650d  __aeabi_cdrcmple                   
-00006785  __aeabi_d2iz                       
-00005a0f  __aeabi_dadd                       
-00005cf9  __aeabi_ddiv                       
-00005f59  __aeabi_dmul                       
-00005a05  __aeabi_dsub                       
-000068c1  __aeabi_errno_addr                 
-00006845  __aeabi_i2d                        
-00006593  __aeabi_memclr                     
-00006593  __aeabi_memclr4                    
-00006593  __aeabi_memclr8                    
-00006471  __aeabi_memcpy                     
-00006471  __aeabi_memcpy4                    
-00006471  __aeabi_memcpy8                    
-00006595  __aeabi_memset                     
-00006595  __aeabi_memset4                    
-00006595  __aeabi_memset8                    
+000075e9  __TI_zero_init                     
+000071a9  __aeabi_cdrcmple                   
+00007491  __aeabi_d2iz                       
+00006587  __aeabi_dadd                       
+00006871  __aeabi_ddiv                       
+00006bf5  __aeabi_dmul                       
+0000657d  __aeabi_dsub                       
+00007601  __aeabi_errno_addr                 
+00007585  __aeabi_i2d                        
+0000722f  __aeabi_memclr                     
+0000722f  __aeabi_memclr4                    
+0000722f  __aeabi_memclr8                    
+0000710d  __aeabi_memcpy                     
+0000710d  __aeabi_memcpy4                    
+0000710d  __aeabi_memcpy8                    
+00007231  __aeabi_memset                     
+00007231  __aeabi_memset4                    
+00007231  __aeabi_memset8                    
 ffffffff  __binit__                          
 ffffffff  __c_args__                         
 UNDEFED   __mpu_init                         
-20001d50  __stack                            
+20003b40  __stack                            
 20000000  __start___llvm_prf_cnts            
 20000000  __stop___llvm_prf_cnts             
-00006811  _c_int00_noargs                    
-00006a62  _ctypes_                           
+0000751d  _c_int00_noargs                    
+00007936  _ctypes_                           
 UNDEFED   _system_post_cinit                 
-000068c9  _system_pre_init                   
-000068cd  abort                              
-00006739  atoi                               
+00007609  _system_pre_init                   
+0000760d  abort                              
+00004225  add_to_code                        
+00004181  ascii_to_num                       
+00007445  atoi                               
 ffffffff  binit                              
-00005717  check_rows                         
-20001d45  churning_time_chocolate            
-20001d46  churning_time_strawberry           
-000049af  clr_LCD                            
-00005625  column                             
-20001fc3  console_state                      
-20001fbc  errno                              
-00006055  floor                              
-00006055  floorl                             
+00007579  button_task                        
+20003da0  chars_send                         
+0000628f  check_rows                         
+00004435  choose_amount_task                 
+20003d7f  chosen_flavour                     
+20003d75  churning_time_chocolate            
+20003d76  churning_time_strawberry           
+20003d74  churning_time_vanilla              
+00006ec5  clock_task                         
+000050ed  clr_LCD                            
+0000619d  column                             
+20003d83  console_state                      
+20003abc  current_ice                        
+20003ac3  current_time_hour                  
+20003b34  current_time_min                   
+20003b35  current_time_sec                   
+20003d7b  cursor_x                           
+20003d9c  errno                              
+00004339  flavour_task                       
+00006cf1  floor                              
+00006cf1  floorl                             
 00000000  g_pfnVectors                       
-00006323  get_file                           
-000056c7  get_keyboard                       
-20001d47  global_led                         
-000049d5  home_LCD                           
-0000634f  init_files                         
-000063c9  init_gpio                          
-0000660d  init_systick                       
-20001d48  inp                                
-00005699  key_catch                          
-000055bd  keypad_init                        
-20001d0c  keypad_mutex                       
-0000575d  keypad_task                        
-20001d49  lb_frequency_coco                  
-20001d4a  lb_frequency_milk                  
-20001d4b  lb_frequency_oat                   
-00004b9d  lcd_example                        
-0000478d  lcd_init                           
-20001d10  lcd_mutex                          
-00004a31  lcd_task                           
-00004b61  lcd_write                          
-00004c25  lcrh_databits                      
-00004c69  lcrh_parity                        
-00004c4f  lcrh_stopbits                      
-0000534b  led_flashing                       
-00005305  led_init                           
-00004fd9  log10                              
-00004fd9  log10l                             
-20001f84  log_                               
-00006257  main                               
-00006471  memcpy                             
-0000659b  memset                             
-000047eb  move_LCD                           
-20001d14  mutex_churning_time                
-20001d18  mutex_liquid_base                  
-20001d1c  mutex_production_time              
-20001d20  mutex_time_of_day                  
-20001d24  mutex_uart_rx                      
-20001d28  mutex_uart_tx                      
+000072a9  get_adc                            
+00006fbf  get_file                           
+0000623f  get_keyboard                       
+0000479d  get_log                            
+20003b36  global_led                         
+00005113  home_LCD                           
+00005811  ice_cream_init                     
+20003d7a  ice_state                          
+20003d7e  icecream_amount                    
+000072b1  init_adc                           
+00006feb  init_files                         
+00007065  init_gpio                          
+00007319  init_systick                       
+20003b37  key                                
+00006211  key_catch                          
+00006135  keypad_init                        
+20003af0  keypad_mutex                       
+000062d5  keypad_task                        
+20003d7c  keys_pressed                       
+20003d79  lb_frequency_coco                  
+20003d77  lb_frequency_milk                  
+20003d78  lb_frequency_oat                   
+000052e3  lcd_example                        
+00004ec1  lcd_init                           
+20003af4  lcd_mutex                          
+00005171  lcd_task                           
+000052a1  lcd_write                          
+20003af8  lcd_write_mutex                    
+0000536d  lcrh_databits                      
+000053b1  lcrh_parity                        
+00005397  lcrh_stopbits                      
+0000586d  led_flashing                       
+00005813  led_init                           
+20003d80  liquid_base                        
+000043a9  liquid_task                        
+00004299  locked_task                        
+00005b6d  log10                              
+00005b6d  log10l                             
+0000458d  log_data                           
+00002045  logging_init                       
+000021b1  logging_task                       
+00005ecf  main                               
+0000710d  memcpy                             
+00007237  memset                             
+00004f29  move_LCD                           
+20003afc  mutex_churning_time                
+20003b00  mutex_liquid_base                  
+20003b04  mutex_production_time              
+20003b08  mutex_time_of_day                  
+20003b0c  mutex_uart_rx                      
+20003b10  mutex_uart_send                    
+20003b14  mutex_uart_tx                      
+20003d82  num_ice                            
 00002071  number_length                      
-000049ef  out_LCD                            
-00004943  out_LCD_high                       
-000048f9  out_LCD_low                        
+0000512d  out_LCD                            
+00005081  out_LCD_high                       
+00005037  out_LCD_low                        
 00000d21  pcTaskGetName                      
-0000434b  pcTimerGetName                     
-20001c20  pof                                
-00006301  put_file                           
-0000582d  pvPortMalloc                       
+00004a7f  pcTimerGetName                     
+00004501  place_cup_task                     
+200039d0  pof                                
+200036b0  produced                           
+00004635  producing_task                     
+00006f9d  put_file                           
+000063a5  pvPortMalloc                       
 00001877  pvTaskIncrementMutexHeldCount      
-00004741  pvTimerGetTimerID                  
-20001f50  pxCurrentTCB                       
-00005bbd  pxPortInitialiseStack              
-20001d2c  q_keypad                           
-20001d30  q_lcd                              
-20001d34  q_uart_rx                          
-20001d38  q_uart_tx                          
+00004e75  pvTimerGetTimerID                  
+20003d40  pxCurrentTCB                       
+00006735  pxPortInitialiseStack              
+20003b18  q_keypad                           
+20003b1c  q_lcd                              
+20003b20  q_uart_rx                          
+20003b24  q_uart_tx                          
 000020ad  receive_input                      
-000055d9  row                                
-00005665  set_column                         
-00002045  settings_init                      
-00002141  settings_task                      
-20001fa2  state                              
-000066e1  status_led_init                    
-0000670f  status_led_task                    
-00006873  strcpy                             
-00006887  strlen                             
-20001fc4  timer_state                        
-00005417  turn_led                           
-00004cbd  uart0_fifos_disable                
-00004cb1  uart0_fifos_enable                 
-00004de9  uart0_get_q                        
-00004e41  uart0_getc                         
-00004cc9  uart0_init                         
-00004d9f  uart0_put_q                        
-00004ebd  uart0_put_return                   
-00004e69  uart0_put_string                   
-00004e55  uart0_putc                         
-00004e37  uart0_rx_rdy                       
-00004e49  uart0_tx_rdy                       
-00004eed  uart_rx_task                       
-00004f3b  uart_tx_task                       
-00006bf4  ulMaxSyscallInterruptPriority      
-0000615d  ulPortGetIPSR                      
+20003b38  rot_cnt                            
+20003b39  rot_pressed                        
+00006ad1  rotary_enc_init                    
+00006b15  rotary_enc_task                    
+00006151  row                                
+20003b3a  run_time_hour                      
+20003b3b  run_time_min                       
+20003b3c  run_time_sec                       
+000061dd  set_column                         
+20003da7  state                              
+000073ed  status_led_init                    
+0000741b  status_led_task                    
+000075b3  strcpy                             
+000075c7  strlen                             
+00005e9b  suspend_task                       
+00007551  sw1_pushed                         
+00007565  sw2_pushed                         
+20003d81  time_of_day                        
+20003da9  timer_state                        
+000059ad  turn_led                           
+00005405  uart0_fifos_disable                
+000053f9  uart0_fifos_enable                 
+00005543  uart0_get_q                        
+0000559b  uart0_getc                         
+00005411  uart0_init                         
+000055c3  uart0_put_char                     
+000054f1  uart0_put_q                        
+00005611  uart0_put_string                   
+000055af  uart0_putc                         
+00005591  uart0_rx_rdy                       
+000055a3  uart0_tx_rdy                       
+00005681  uart_rx_task                       
+000056cf  uart_tx_task                       
+00007ac8  ulMaxSyscallInterruptPriority      
+00006df9  ulPortGetIPSR                      
 00001895  ulTaskGenericNotifyTake            
 00001f05  ulTaskGenericNotifyValueClear      
-00005f11  uxListRemove                       
-00003e95  uxQueueMessagesWaiting             
-00003ecb  uxQueueMessagesWaitingFromISR      
-00003eab  uxQueueSpacesAvailable             
+00006a89  uxListRemove                       
+00003e71  uxQueueMessagesWaiting             
+00003ea7  uxQueueMessagesWaitingFromISR      
+00003e87  uxQueueSpacesAvailable             
 00000d15  uxTaskGetNumberOfTasks             
 00000621  uxTaskPriorityGet                  
 0000064d  uxTaskPriorityGetFromISR           
 00001855  uxTaskResetEventItemValue          
-0000430d  uxTimerGetReloadMode               
-00006bf8  uxTopUsedPriority                  
-00005e2f  vListInitialise                    
-00005e5f  vListInitialiseItem                
-00005eab  vListInsert                        
-00005e6f  vListInsertEnd                     
-00006219  vPortEnableVFP                     
-00005c5d  vPortEndScheduler                  
-00005c5f  vPortEnterCritical                 
-00005c7f  vPortExitCritical                  
-00005945  vPortFree                          
-000059a9  vPortInitialiseBlocks              
-000061d5  vPortSVCHandler                    
-00005cbb  vPortSetupTimerInterrupt           
-000061f5  vPortStartFirstTask                
-00003ee1  vQueueDelete                       
-00004147  vQueueWaitForMessageRestricted     
+00004a41  uxTimerGetReloadMode               
+00007acc  uxTopUsedPriority                  
+000069a7  vListInitialise                    
+000069d7  vListInitialiseItem                
+00006a23  vListInsert                        
+000069e7  vListInsertEnd                     
+00006eb5  vPortEnableVFP                     
+000067d5  vPortEndScheduler                  
+000067d7  vPortEnterCritical                 
+000067f7  vPortExitCritical                  
+000064bd  vPortFree                          
+00006521  vPortInitialiseBlocks              
+00006e71  vPortSVCHandler                    
+00006833  vPortSetupTimerInterrupt           
+00006e91  vPortStartFirstTask                
+00003ebd  vQueueDelete                       
+00004123  vQueueWaitForMessageRestricted     
 000005eb  vTaskDelay                         
 000004a3  vTaskDelete                        
 00000b23  vTaskEndScheduler                  
@@ -439,32 +522,32 @@ ffffffff  binit
 00000801  vTaskSuspend                       
 00000b45  vTaskSuspendAll                    
 00000f51  vTaskSwitchContext                 
-000042d7  vTimerSetReloadMode                
-0000475b  vTimerSetTimerID                   
-000047ad  wr_ch_LCD                          
-00004959  wr_ctrl_LCD                        
-000048e3  wr_ctrl_LCD_high                   
-00004821  wr_ctrl_LCD_low                    
-000047cd  wr_str_LCD                         
-000059a3  xPortGetFreeHeapSize               
-00006175  xPortPendSVHandler                 
-00005c27  xPortStartScheduler                
-00005c95  xPortSysTickHandler                
-000036ff  xQueueCreateMutex                  
-0000362f  xQueueGenericCreate                
-0000355d  xQueueGenericReset                 
-000037ab  xQueueGenericSend                  
-000038d9  xQueueGenericSendFromISR           
-0000397b  xQueueGiveFromISR                  
-0000372b  xQueueGiveMutexRecursive           
-000040db  xQueueIsQueueEmptyFromISR          
-00004121  xQueueIsQueueFullFromISR           
-00003c87  xQueuePeek                         
-00003e43  xQueuePeekFromISR                  
-00003a0f  xQueueReceive                      
-00003da9  xQueueReceiveFromISR               
-00003b2d  xQueueSemaphoreTake                
-00003767  xQueueTakeMutexRecursive           
+00004a0b  vTimerSetReloadMode                
+00004e8f  vTimerSetTimerID                   
+00004eeb  wr_ch_LCD                          
+00005097  wr_ctrl_LCD                        
+00005021  wr_ctrl_LCD_high                   
+00004f5f  wr_ctrl_LCD_low                    
+00004f0b  wr_str_LCD                         
+0000651b  xPortGetFreeHeapSize               
+00006e11  xPortPendSVHandler                 
+0000679f  xPortStartScheduler                
+0000680d  xPortSysTickHandler                
+000036db  xQueueCreateMutex                  
+0000360b  xQueueGenericCreate                
+00003539  xQueueGenericReset                 
+00003787  xQueueGenericSend                  
+000038b5  xQueueGenericSendFromISR           
+00003957  xQueueGiveFromISR                  
+00003707  xQueueGiveMutexRecursive           
+000040b7  xQueueIsQueueEmptyFromISR          
+000040fd  xQueueIsQueueFullFromISR           
+00003c63  xQueuePeek                         
+00003e1f  xQueuePeekFromISR                  
+000039eb  xQueueReceive                      
+00003d85  xQueueReceiveFromISR               
+00003b09  xQueueSemaphoreTake                
+00003743  xQueueTakeMutexRecursive           
 00000d41  xTaskCatchUpTicks                  
 00001355  xTaskCheckForTimeOut               
 0000026d  xTaskCreate                        
@@ -483,15 +566,16 @@ ffffffff  binit
 000010b1  xTaskRemoveFromEventList           
 00000b59  xTaskResumeAll                     
 000009f5  xTaskResumeFromISR                 
-000041cf  xTimerCreate                       
-000041a5  xTimerCreateTimerTask              
-00004253  xTimerGenericCommand               
-00004335  xTimerGetExpiryTime                
-000042c5  xTimerGetPeriod                    
-000042bf  xTimerGetTimerDaemonTaskHandle     
-00004719  xTimerIsTimerActive                
-20001d3c  xTimer_led_dur                     
-20001d40  xTimer_led_freq                    
+00004903  xTimerCreate                       
+000048d9  xTimerCreateTimerTask              
+00004987  xTimerGenericCommand               
+00004a69  xTimerGetExpiryTime                
+000049f9  xTimerGetPeriod                    
+000049f3  xTimerGetTimerDaemonTaskHandle     
+00004e4d  xTimerIsTimerActive                
+20003b28  xTimer_led_dur                     
+20003b2c  xTimer_led_freq                    
+20003b30  xTimer_producing_dots              
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -545,193 +629,246 @@ address   name
 00001d5d  vTaskGenericNotifyGiveFromISR      
 00001eb5  xTaskGenericNotifyStateClear       
 00001f05  ulTaskGenericNotifyValueClear      
-00002045  settings_init                      
+00002045  logging_init                       
 00002071  number_length                      
 000020ad  receive_input                      
-00002141  settings_task                      
-0000355d  xQueueGenericReset                 
-0000362f  xQueueGenericCreate                
-000036ff  xQueueCreateMutex                  
-0000372b  xQueueGiveMutexRecursive           
-00003767  xQueueTakeMutexRecursive           
-000037ab  xQueueGenericSend                  
-000038d9  xQueueGenericSendFromISR           
-0000397b  xQueueGiveFromISR                  
-00003a0f  xQueueReceive                      
-00003b2d  xQueueSemaphoreTake                
-00003c87  xQueuePeek                         
-00003da9  xQueueReceiveFromISR               
-00003e43  xQueuePeekFromISR                  
-00003e95  uxQueueMessagesWaiting             
-00003eab  uxQueueSpacesAvailable             
-00003ecb  uxQueueMessagesWaitingFromISR      
-00003ee1  vQueueDelete                       
-000040db  xQueueIsQueueEmptyFromISR          
-00004121  xQueueIsQueueFullFromISR           
-00004147  vQueueWaitForMessageRestricted     
-000041a5  xTimerCreateTimerTask              
-000041cf  xTimerCreate                       
-00004253  xTimerGenericCommand               
-000042bf  xTimerGetTimerDaemonTaskHandle     
-000042c5  xTimerGetPeriod                    
-000042d7  vTimerSetReloadMode                
-0000430d  uxTimerGetReloadMode               
-00004335  xTimerGetExpiryTime                
-0000434b  pcTimerGetName                     
-00004719  xTimerIsTimerActive                
-00004741  pvTimerGetTimerID                  
-0000475b  vTimerSetTimerID                   
-0000478d  lcd_init                           
-000047ad  wr_ch_LCD                          
-000047cd  wr_str_LCD                         
-000047eb  move_LCD                           
-00004821  wr_ctrl_LCD_low                    
-000048e3  wr_ctrl_LCD_high                   
-000048f9  out_LCD_low                        
-00004943  out_LCD_high                       
-00004959  wr_ctrl_LCD                        
-000049af  clr_LCD                            
-000049d5  home_LCD                           
-000049df  Set_cursor                         
-000049ef  out_LCD                            
-00004a31  lcd_task                           
-00004b61  lcd_write                          
-00004b9d  lcd_example                        
-00004c25  lcrh_databits                      
-00004c4f  lcrh_stopbits                      
-00004c69  lcrh_parity                        
-00004cb1  uart0_fifos_enable                 
-00004cbd  uart0_fifos_disable                
-00004cc9  uart0_init                         
-00004d9f  uart0_put_q                        
-00004de9  uart0_get_q                        
-00004e37  uart0_rx_rdy                       
-00004e41  uart0_getc                         
-00004e49  uart0_tx_rdy                       
-00004e55  uart0_putc                         
-00004e69  uart0_put_string                   
-00004ebd  uart0_put_return                   
-00004eed  uart_rx_task                       
-00004f3b  uart_tx_task                       
-00004fd9  log10                              
-00004fd9  log10l                             
-00005305  led_init                           
-0000534b  led_flashing                       
-00005417  turn_led                           
-000055bd  keypad_init                        
-000055d9  row                                
-00005625  column                             
-00005665  set_column                         
-00005699  key_catch                          
-000056c7  get_keyboard                       
-00005717  check_rows                         
-0000575d  keypad_task                        
-0000582d  pvPortMalloc                       
-00005945  vPortFree                          
-000059a3  xPortGetFreeHeapSize               
-000059a9  vPortInitialiseBlocks              
-00005a05  __aeabi_dsub                       
-00005a0f  __aeabi_dadd                       
-00005bbd  pxPortInitialiseStack              
-00005c27  xPortStartScheduler                
-00005c5d  vPortEndScheduler                  
-00005c5f  vPortEnterCritical                 
-00005c7f  vPortExitCritical                  
-00005c95  xPortSysTickHandler                
-00005cbb  vPortSetupTimerInterrupt           
-00005cf9  __aeabi_ddiv                       
-00005e2f  vListInitialise                    
-00005e5f  vListInitialiseItem                
-00005e6f  vListInsertEnd                     
-00005eab  vListInsert                        
-00005f11  uxListRemove                       
-00005f59  __aeabi_dmul                       
-00006055  floor                              
-00006055  floorl                             
-0000615d  ulPortGetIPSR                      
-00006175  xPortPendSVHandler                 
-000061d5  vPortSVCHandler                    
-000061f5  vPortStartFirstTask                
-00006219  vPortEnableVFP                     
-00006257  main                               
-00006301  put_file                           
-00006323  get_file                           
-0000634f  init_files                         
-000063c9  init_gpio                          
-00006471  __aeabi_memcpy                     
-00006471  __aeabi_memcpy4                    
-00006471  __aeabi_memcpy8                    
-00006471  memcpy                             
-0000650d  __aeabi_cdrcmple                   
-00006593  __aeabi_memclr                     
-00006593  __aeabi_memclr4                    
-00006593  __aeabi_memclr8                    
-00006595  __aeabi_memset                     
-00006595  __aeabi_memset4                    
-00006595  __aeabi_memset8                    
-0000659b  memset                             
-0000660d  init_systick                       
-00006679  __TI_decompress_lzss               
-000066e1  status_led_init                    
-0000670f  status_led_task                    
-00006739  atoi                               
-00006785  __aeabi_d2iz                       
-000067cd  __TI_auto_init_nobinit_nopinit     
-00006811  _c_int00_noargs                    
-00006845  __aeabi_i2d                        
-00006873  strcpy                             
-00006887  strlen                             
-0000689b  __TI_decompress_none               
-000068a9  __TI_zero_init                     
-000068b5  ResetISR                           
-000068c1  __aeabi_errno_addr                 
-000068c9  _system_pre_init                   
-000068cd  C$$EXIT                            
-000068cd  abort                              
-00006a62  _ctypes_                           
-00006be8  LCD_init_sequense                  
-00006bf4  ulMaxSyscallInterruptPriority      
-00006bf8  uxTopUsedPriority                  
-00006c38  __TI_Handler_Table_Base            
-00006c44  __TI_Handler_Table_Limit           
-00006c50  __TI_CINIT_Base                    
-00006c60  __TI_CINIT_Limit                   
+000021b1  logging_task                       
+00003539  xQueueGenericReset                 
+0000360b  xQueueGenericCreate                
+000036db  xQueueCreateMutex                  
+00003707  xQueueGiveMutexRecursive           
+00003743  xQueueTakeMutexRecursive           
+00003787  xQueueGenericSend                  
+000038b5  xQueueGenericSendFromISR           
+00003957  xQueueGiveFromISR                  
+000039eb  xQueueReceive                      
+00003b09  xQueueSemaphoreTake                
+00003c63  xQueuePeek                         
+00003d85  xQueueReceiveFromISR               
+00003e1f  xQueuePeekFromISR                  
+00003e71  uxQueueMessagesWaiting             
+00003e87  uxQueueSpacesAvailable             
+00003ea7  uxQueueMessagesWaitingFromISR      
+00003ebd  vQueueDelete                       
+000040b7  xQueueIsQueueEmptyFromISR          
+000040fd  xQueueIsQueueFullFromISR           
+00004123  vQueueWaitForMessageRestricted     
+00004181  ascii_to_num                       
+00004225  add_to_code                        
+00004299  locked_task                        
+00004339  flavour_task                       
+000043a9  liquid_task                        
+00004435  choose_amount_task                 
+00004501  place_cup_task                     
+0000458d  log_data                           
+00004635  producing_task                     
+0000479d  get_log                            
+000048d9  xTimerCreateTimerTask              
+00004903  xTimerCreate                       
+00004987  xTimerGenericCommand               
+000049f3  xTimerGetTimerDaemonTaskHandle     
+000049f9  xTimerGetPeriod                    
+00004a0b  vTimerSetReloadMode                
+00004a41  uxTimerGetReloadMode               
+00004a69  xTimerGetExpiryTime                
+00004a7f  pcTimerGetName                     
+00004e4d  xTimerIsTimerActive                
+00004e75  pvTimerGetTimerID                  
+00004e8f  vTimerSetTimerID                   
+00004ec1  lcd_init                           
+00004eeb  wr_ch_LCD                          
+00004f0b  wr_str_LCD                         
+00004f29  move_LCD                           
+00004f5f  wr_ctrl_LCD_low                    
+00005021  wr_ctrl_LCD_high                   
+00005037  out_LCD_low                        
+00005081  out_LCD_high                       
+00005097  wr_ctrl_LCD                        
+000050ed  clr_LCD                            
+00005113  home_LCD                           
+0000511d  Set_cursor                         
+0000512d  out_LCD                            
+00005171  lcd_task                           
+000052a1  lcd_write                          
+000052e3  lcd_example                        
+0000536d  lcrh_databits                      
+00005397  lcrh_stopbits                      
+000053b1  lcrh_parity                        
+000053f9  uart0_fifos_enable                 
+00005405  uart0_fifos_disable                
+00005411  uart0_init                         
+000054f1  uart0_put_q                        
+00005543  uart0_get_q                        
+00005591  uart0_rx_rdy                       
+0000559b  uart0_getc                         
+000055a3  uart0_tx_rdy                       
+000055af  uart0_putc                         
+000055c3  uart0_put_char                     
+00005611  uart0_put_string                   
+00005681  uart_rx_task                       
+000056cf  uart_tx_task                       
+00005811  ice_cream_init                     
+00005813  led_init                           
+0000586d  led_flashing                       
+000059ad  turn_led                           
+00005b6d  log10                              
+00005b6d  log10l                             
+00005e9b  suspend_task                       
+00005ecf  main                               
+00006135  keypad_init                        
+00006151  row                                
+0000619d  column                             
+000061dd  set_column                         
+00006211  key_catch                          
+0000623f  get_keyboard                       
+0000628f  check_rows                         
+000062d5  keypad_task                        
+000063a5  pvPortMalloc                       
+000064bd  vPortFree                          
+0000651b  xPortGetFreeHeapSize               
+00006521  vPortInitialiseBlocks              
+0000657d  __aeabi_dsub                       
+00006587  __aeabi_dadd                       
+00006735  pxPortInitialiseStack              
+0000679f  xPortStartScheduler                
+000067d5  vPortEndScheduler                  
+000067d7  vPortEnterCritical                 
+000067f7  vPortExitCritical                  
+0000680d  xPortSysTickHandler                
+00006833  vPortSetupTimerInterrupt           
+00006871  __aeabi_ddiv                       
+000069a7  vListInitialise                    
+000069d7  vListInitialiseItem                
+000069e7  vListInsertEnd                     
+00006a23  vListInsert                        
+00006a89  uxListRemove                       
+00006ad1  rotary_enc_init                    
+00006b15  rotary_enc_task                    
+00006bf5  __aeabi_dmul                       
+00006cf1  floor                              
+00006cf1  floorl                             
+00006df9  ulPortGetIPSR                      
+00006e11  xPortPendSVHandler                 
+00006e71  vPortSVCHandler                    
+00006e91  vPortStartFirstTask                
+00006eb5  vPortEnableVFP                     
+00006ec5  clock_task                         
+00006f9d  put_file                           
+00006fbf  get_file                           
+00006feb  init_files                         
+00007065  init_gpio                          
+0000710d  __aeabi_memcpy                     
+0000710d  __aeabi_memcpy4                    
+0000710d  __aeabi_memcpy8                    
+0000710d  memcpy                             
+000071a9  __aeabi_cdrcmple                   
+0000722f  __aeabi_memclr                     
+0000722f  __aeabi_memclr4                    
+0000722f  __aeabi_memclr8                    
+00007231  __aeabi_memset                     
+00007231  __aeabi_memset4                    
+00007231  __aeabi_memset8                    
+00007237  memset                             
+000072a9  get_adc                            
+000072b1  init_adc                           
+00007319  init_systick                       
+00007385  __TI_decompress_lzss               
+000073ed  status_led_init                    
+0000741b  status_led_task                    
+00007445  atoi                               
+00007491  __aeabi_d2iz                       
+000074d9  __TI_auto_init_nobinit_nopinit     
+0000751d  _c_int00_noargs                    
+00007551  sw1_pushed                         
+00007565  sw2_pushed                         
+00007579  button_task                        
+00007585  __aeabi_i2d                        
+000075b3  strcpy                             
+000075c7  strlen                             
+000075db  __TI_decompress_none               
+000075e9  __TI_zero_init                     
+000075f5  ResetISR                           
+00007601  __aeabi_errno_addr                 
+00007609  _system_pre_init                   
+0000760d  C$$EXIT                            
+0000760d  abort                              
+00007936  _ctypes_                           
+00007abc  LCD_init_sequense                  
+00007ac8  ulMaxSyscallInterruptPriority      
+00007acc  uxTopUsedPriority                  
+00007af0  __TI_Handler_Table_Base            
+00007afc  __TI_Handler_Table_Limit           
+00007b08  __TI_CINIT_Base                    
+00007b18  __TI_CINIT_Limit                   
 20000000  __start___llvm_prf_cnts            
 20000000  __stop___llvm_prf_cnts             
-20001c20  pof                                
-20001d0c  keypad_mutex                       
-20001d10  lcd_mutex                          
-20001d14  mutex_churning_time                
-20001d18  mutex_liquid_base                  
-20001d1c  mutex_production_time              
-20001d20  mutex_time_of_day                  
-20001d24  mutex_uart_rx                      
-20001d28  mutex_uart_tx                      
-20001d2c  q_keypad                           
-20001d30  q_lcd                              
-20001d34  q_uart_rx                          
-20001d38  q_uart_tx                          
-20001d3c  xTimer_led_dur                     
-20001d40  xTimer_led_freq                    
-20001d44  LCD_init                           
-20001d45  churning_time_chocolate            
-20001d46  churning_time_strawberry           
-20001d47  global_led                         
-20001d48  inp                                
-20001d49  lb_frequency_coco                  
-20001d4a  lb_frequency_milk                  
-20001d4b  lb_frequency_oat                   
-20001d50  __stack                            
-20001f50  __STACK_END                        
-20001f50  __STACK_TOP                        
-20001f50  pxCurrentTCB                       
-20001f84  log_                               
-20001fa2  state                              
-20001fa3  KEYPAD_state                       
-20001fbc  errno                              
-20001fc0  LCD_state                          
-20001fc3  console_state                      
-20001fc4  timer_state                        
+200036b0  produced                           
+200039d0  pof                                
+20003abc  current_ice                        
+20003ac2  LCD_init                           
+20003ac3  current_time_hour                  
+20003ac4  TchooseAmount                      
+20003ac8  Tenc                               
+20003acc  Tflavour                           
+20003ad0  Tkey                               
+20003ad4  Tliquid                            
+20003ad8  Tlocked                            
+20003adc  Tlogging                           
+20003ae0  TplaceCup                          
+20003ae4  Tproducing                         
+20003ae8  Tuart_rx                           
+20003aec  Tuart_tx                           
+20003af0  keypad_mutex                       
+20003af4  lcd_mutex                          
+20003af8  lcd_write_mutex                    
+20003afc  mutex_churning_time                
+20003b00  mutex_liquid_base                  
+20003b04  mutex_production_time              
+20003b08  mutex_time_of_day                  
+20003b0c  mutex_uart_rx                      
+20003b10  mutex_uart_send                    
+20003b14  mutex_uart_tx                      
+20003b18  q_keypad                           
+20003b1c  q_lcd                              
+20003b20  q_uart_rx                          
+20003b24  q_uart_tx                          
+20003b28  xTimer_led_dur                     
+20003b2c  xTimer_led_freq                    
+20003b30  xTimer_producing_dots              
+20003b34  current_time_min                   
+20003b35  current_time_sec                   
+20003b36  global_led                         
+20003b37  key                                
+20003b38  rot_cnt                            
+20003b39  rot_pressed                        
+20003b3a  run_time_hour                      
+20003b3b  run_time_min                       
+20003b3c  run_time_sec                       
+20003b40  __stack                            
+20003d40  __STACK_END                        
+20003d40  __STACK_TOP                        
+20003d40  pxCurrentTCB                       
+20003d74  churning_time_vanilla              
+20003d75  churning_time_chocolate            
+20003d76  churning_time_strawberry           
+20003d77  lb_frequency_milk                  
+20003d78  lb_frequency_oat                   
+20003d79  lb_frequency_coco                  
+20003d7a  ice_state                          
+20003d7b  cursor_x                           
+20003d7c  keys_pressed                       
+20003d7e  icecream_amount                    
+20003d7f  chosen_flavour                     
+20003d80  liquid_base                        
+20003d81  time_of_day                        
+20003d82  num_ice                            
+20003d83  console_state                      
+20003d9c  errno                              
+20003da0  chars_send                         
+20003da4  LCD_state                          
+20003da7  state                              
+20003da8  KEYPAD_state                       
+20003da9  timer_state                        
 ffffffff  __TI_pprof_out_hndl                
 ffffffff  __TI_prof_data_size                
 ffffffff  __TI_prof_data_start               
@@ -741,4 +878,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                         
 UNDEFED   _system_post_cinit                 
 
-[242 symbols]
+[295 symbols]

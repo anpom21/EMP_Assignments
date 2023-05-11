@@ -34,6 +34,8 @@ ice_cream_settings.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assig
 ice_cream_settings.obj: C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment/Andreas_projekt/LCD_RTOS/frt10/inc/semphr.h
 ice_cream_settings.obj: ../uart0.h
 ice_cream_settings.obj: ../lcd.h
+ice_cream_settings.obj: ../icecream.h
+ice_cream_settings.obj: ../ice_cream_settings.h
 
 ../ice_cream_settings.c:
 
@@ -102,4 +104,8 @@ C:/Users/andpo/GitHub_projects/EMP_Assignments/EMP_Assignments/Final\ assignment
 ../uart0.h:
 
 ../lcd.h:
+
+../icecream.h:
+
+../ice_cream_settings.h:
 

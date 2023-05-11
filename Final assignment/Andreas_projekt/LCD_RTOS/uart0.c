@@ -40,6 +40,10 @@ extern QueueHandle_t q_uart_rx;
 
 extern SemaphoreHandle_t mutex_uart_tx;
 extern SemaphoreHandle_t mutex_uart_rx;
+extern SemaphoreHandle_t mutex_uart_send;
+
+int chars_send = 0;
+//extern SemaphoreHandle_t mutex_uart_access;
 /*****************************   Functions   *******************************/
 INT32U lcrh_databits( INT8U antal_databits )
 /*****************************************************************************
@@ -169,13 +173,14 @@ extern void uart0_init( INT32U baud_rate, INT8U databits, INT8U stopbits, INT8U 
 
   mutex_uart_rx = xSemaphoreCreateMutex();
   mutex_uart_tx = xSemaphoreCreateMutex();
+  mutex_uart_send = xSemaphoreCreateMutex();
 }
 
 BOOLEAN uart0_put_q( INT8U ch )
 {
   BOOLEAN result = 0;
   if( xSemaphoreTake( mutex_uart_tx, ( TickType_t ) 10 ) == pdTRUE ){
-
+    chars_send++;
     result = xQueueSend( q_uart_tx, &ch, portMAX_DELAY ) == pdTRUE;
     xSemaphoreGive(mutex_uart_tx);
   }
@@ -232,6 +237,30 @@ void uart0_putc( INT8U ch )
   UART0_DR_R = ch;
 }
 
+BOOLEAN uart0_put_char( char ch){
+    BOOLEAN result = 0;
+
+    
+    if( xSemaphoreTake( mutex_uart_send, ( TickType_t ) portMAX_DELAY ) == pdTRUE ){
+    
+  
+
+        while (!uart0_tx_rdy());
+        uart0_putc(ch);
+
+        chars_send++;
+        
+      xSemaphoreGive(mutex_uart_send);
+    result = 1;
+    }
+    
+  
+  
+
+  return result;
+
+}
+
 BOOLEAN uart0_put_string( char a_string[])
 /*****************************************************************************
 *   Function : See module specification (.h-file).
@@ -239,35 +268,30 @@ BOOLEAN uart0_put_string( char a_string[])
 {
     BOOLEAN result = 0;
     INT16U i = 0;
-    INT16U le = strlen(a_string);
-
+    
+    if( xSemaphoreTake( mutex_uart_send, ( TickType_t ) portMAX_DELAY ) == pdTRUE ){
+    
+    
     while (i != strlen(a_string)){
 
         while (!uart0_tx_rdy());
         uart0_putc(a_string[i]);
+
+        chars_send++;
         i++;
 
     }
-  result = 1;
+    xSemaphoreGive(mutex_uart_send);
+    result = 1;
+  }
+  
 
   return result;
 
 }
 
 
-void uart0_put_return(INT8U length){
 
-  
-
-  INT8U i;
-  for (i = length; i < 80; i++)
-  {
-    uart0_put_q(' ');
-  }
-
-  
-  
-}
 
 extern void uart_rx_task(void *pvParameters)
 /*****************************************************************************
@@ -281,6 +305,7 @@ extern void uart_rx_task(void *pvParameters)
     
   if( xSemaphoreTake( mutex_uart_rx, ( TickType_t ) 10 ) == pdTRUE ){
   if( uart0_rx_rdy() ){
+
     ch = uart0_getc();
     
       

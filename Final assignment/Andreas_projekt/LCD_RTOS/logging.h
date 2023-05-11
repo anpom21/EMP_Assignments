@@ -28,10 +28,10 @@
 /*****************************   Constants   *******************************/
 
 /*****************************   Functions   *******************************/
-void settings_init();
+void logging_init();
 
 
-void settings_task(void *pvParameters );
+void logging_task(void *pvParameters );
 /*****************************************************************************
 *   Input    : Strings can be put directly in as the string input.
 *              Chars need to be passed by address ex lcd_write(&ch,0,0)
