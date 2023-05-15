@@ -425,7 +425,7 @@ void producing_task(void *pvParameters)
     {
 
         // Producing...
-        // lcd_write("Producing...",0,0);
+        //lcd_write("Producing.",0,0);
 
         switch (liquid_base)
         {
@@ -461,13 +461,13 @@ void producing_task(void *pvParameters)
         switch (chosen_flavour)
         {
         case VANILLA:
-            finished = led_flashing(LED_YELLOW, production_frequency, production_time);
+            finished = led_flashing(LED_YELLOW,2 * production_frequency, production_time);
             break;
         case CHOCOLATE:
-            finished = led_flashing(LED_GREEN, production_frequency, production_time);
+            finished = led_flashing(LED_GREEN,2 * production_frequency, production_time);
             break;
         case STRAWBERRY:
-            finished = led_flashing(LED_RED, production_frequency, production_time);
+            finished = led_flashing(LED_RED,2 * production_frequency, production_time);
             break;
         default:
             break;
