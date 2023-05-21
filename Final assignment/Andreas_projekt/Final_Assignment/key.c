@@ -58,6 +58,11 @@ void keypad_init()
 
 
 INT8U row( INT8U y )
+/*
+* INPUT: void
+* OUTPUT: void 
+* Function: Checks for cup place
+*/
 {
   INT8U result = 0;
 

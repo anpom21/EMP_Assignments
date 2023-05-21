@@ -133,6 +133,7 @@ INT8U chosen_flavour = 0;
 INT8U liquid_base = 0;
 INT8U time_of_day = 0;
 
+//Define struct for icecream production log
 typedef struct
 {
     INT8U icecream_flavour;
@@ -143,13 +144,18 @@ typedef struct
     INT8U production_time_sec;
 } icecream;
 
-icecream current_ice;
-icecream produced[100];
+icecream current_ice;   //Stores the shared memory for flavour, liquid and amount selection
+icecream produced[100]; //Array for all produced ice creams
 INT8U num_ice = 0;
 
 /*****************************   Functions   *******************************/
 
 INT8U ascii_to_num(INT8U num)
+/*
+* INPUT: An char named 'num'
+* OUTPUT: INT8U representing the actual numerical value.
+* Function: Converts ascii to numbers'
+*/
 {
     INT8U result;
     switch (num)
@@ -192,6 +198,11 @@ INT8U ascii_to_num(INT8U num)
 }
 
 void add_to_code(INT8U num)
+/*
+* INPUT: a single digit number
+* OUTPUT: void
+* Function: receives four key presses and stores them in a single number.
+*/
 {
     switch (cursor_x % 4)
     {
@@ -213,6 +224,12 @@ void add_to_code(INT8U num)
 }
 
 void locked_task(void *pvParameters)
+/*
+* INPUT: void
+* OUTPUT void
+* Function: Task that controls the locked process of the system. 
+* It expects four key presses and unlocks based on modulo 8.
+*/
 {
     while (1)
     {
@@ -234,15 +251,15 @@ void locked_task(void *pvParameters)
 
                     clr_LCD(); // be nice and clean after yourself :D
 
-                    vTaskDelay(100 / portTICK_RATE_MS);
-                    vTaskResume(Tflavour);
+                    vTaskDelay(100 / portTICK_RATE_MS); //Delay necessary for vTaskDelete(TplaceCup)
+                    vTaskResume(Tflavour);  //send control to flavour task
                     vTaskDelete(TplaceCup);
-                    vTaskSuspend(NULL);
+                    vTaskSuspend(NULL);     //suspend self
                 }
                 else
                 {
 
-                    clr_LCD();
+                    clr_LCD();          //if incorrect key press: reset
                 }
             }
         }
@@ -250,6 +267,11 @@ void locked_task(void *pvParameters)
 }
 
 void flavour_task(void *pvParameters)
+/*
+* INPUT: void
+* OUTPUT: void
+* Function: receives a keypress  and sets the shared memory based on chosen flavour
+*/
 {
     while (1)
     {
@@ -257,25 +279,30 @@ void flavour_task(void *pvParameters)
         lcd_write("1:Van  2:Choco", 0, 0);
         lcd_write("3:Straw", 0, 1);
 
-        if (get_keyboard(&key))
+        if (get_keyboard(&key)) //get keypress
         {
             key = ascii_to_num(key);
             if (key == 1 || key == 2 || key == 3)
             {
                 // ice_state = AMOUNT;
-                chosen_flavour = key;
+                chosen_flavour = key;   //store shared memory
 
                 clr_LCD();
                 vTaskDelay(100 / portTICK_RATE_MS);
-                vTaskResume(Tliquid);
-                vTaskSuspend(Tkey);
-                vTaskSuspend(NULL);
+                vTaskResume(Tliquid);       //pass control to Tliquid
+                vTaskSuspend(Tkey);     //suspend Tkey
+                vTaskSuspend(NULL);     //suspend self
             }
         }
     }
 }
 
 void liquid_task(void *pvParameters)
+/*
+* INPUT: void
+* OUTPUT: void
+* Function: receives variables from rotary encoder and selects liquid base
+*/
 {
     // liquid_base = 0;
     while (1)
@@ -283,7 +310,7 @@ void liquid_task(void *pvParameters)
         liquid_base = rot_cnt % 3;
         lcd_write("Select liquid", 0, 0);
 
-        switch (rot_cnt % 3)
+        switch (rot_cnt % 3)        //Switch case to cycle through liquid bases
         {
         case MILK:
             lcd_write("Milk   ", 0, 1);
@@ -304,13 +331,18 @@ void liquid_task(void *pvParameters)
             clr_LCD();
             vTaskDelay(100 / portTICK_RATE_MS);
             vTaskResume(Tkey);
-            vTaskResume(TchooseAmount);
-            vTaskSuspend(NULL);
+            vTaskResume(TchooseAmount); //Pass control to TchooseAmount
+            vTaskSuspend(NULL);     //Suspend self
         }
     }
 }
 
 void choose_amount_task(void *pvParameters)
+/*
+* INPUT: void
+* OUTPUT: void 
+* Function: reads value from potentiometer and selects amount
+*/
 {
     INT16U adc_val;
     while (1)
@@ -356,13 +388,18 @@ void choose_amount_task(void *pvParameters)
             vTaskSuspend(Tkey);
             // vTaskResume(TplaceCup);
 
-            xTaskCreate(place_cup_task, "place_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, &TplaceCup);
-            vTaskSuspend(NULL);
+            xTaskCreate(place_cup_task, "place_task", USERTASK_STACK_SIZE, NULL, LOW_PRIO, &TplaceCup); //Create place_cup_task;
+            vTaskSuspend(NULL); //suspend self
         }
     }
 }
 
 void place_cup_task(void *pvParameters)
+/*
+* INPUT: void
+* OUTPUT: void 
+* Function: Checks for cup place
+*/
 {
     BOOLEAN forgot_cup = FALSE;
     while (1)
@@ -400,6 +437,11 @@ void place_cup_task(void *pvParameters)
 };
 
 void log_data()
+/*
+* INPUT: void
+* OUTPUT: void 
+* Function: stores ice cream specs in temp value. Then saves in array
+*/
 {
 
     current_ice.icecream_flavour = chosen_flavour;
@@ -415,6 +457,11 @@ void log_data()
 }
 
 void producing_task(void *pvParameters)
+/*
+* INPUT: void
+* OUTPUT: void 
+* Function: Takes shared memory from previous tasks and calls led blinking function based on parameters
+*/
 {
     INT8U production_time = 0;
     float production_frequency = 1;
@@ -477,6 +524,11 @@ void producing_task(void *pvParameters)
 }
 
 INT8U get_log(INT8U row, INT8U col)
+/*
+* INPUT: row = which ice cream production. col = which part of the production is interresting.
+* OUTPUT: data from a specific logged ice cream 
+* Function: returns data from array of produced ice cream
+*/
 {
     INT8U logged_icecream[6];
     logged_icecream[0] = produced[row].icecream_flavour;

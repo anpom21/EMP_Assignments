@@ -49,12 +49,22 @@ fcb pof[MAX_FILES]; // Pool of files
 /*****************************   Functions   *******************************/
 
 BOOLEAN put_file(FILE file, INT8U ch)
+/*
+* INPUT:file and character
+* OUTPUT: boolean
+* Function: saves file
+*/
 {
   if (pof[(int)file].put)
     pof[(int)file].put(ch);
 }
 
 BOOLEAN get_file(FILE file, INT8U *pch)
+/*
+* INPUT:
+* OUTPUT:
+* Function: 
+*/
 {
   BOOLEAN result = FALSE;
 

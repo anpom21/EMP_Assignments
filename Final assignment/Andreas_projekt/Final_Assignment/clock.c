@@ -48,38 +48,39 @@ void clock_task(void *pvParameters)
 {
     while (1)
     {
-        run_time_sec++;
+        run_time_sec++;         //increment time 1 sec
+        
 
-        if (run_time_sec % 60 == 0)
+        if (run_time_sec % 60 == 0)         //run_time_sec overflow
         {
-            run_time_min++;
-            run_time_sec = 0;
-            if (run_time_min % 60 == 0)
+            run_time_min++;                 //increment minute
+            run_time_sec = 0;               //reset sec
+            if (run_time_min % 60 == 0)     //Run_time_min overflow
             {
-                run_time_hour++;
-                run_time_min = 0;
-                if (run_time_hour % 24 == 0)
+                run_time_hour++;            //hour increment
+                run_time_min = 0;           //reset min
+                if (run_time_hour % 24 == 0)    //hour overflow
                 {
-                    run_time_hour = 0;
+                    run_time_hour = 0;      //reset hour
                 }
             }
         }
-        current_time_sec++;
+        current_time_sec++;                     //increment sec
 
-        if (current_time_sec % 60 == 0)
+        if (current_time_sec % 60 == 0)         //sec overflow
         {
-            current_time_min++;
+            current_time_min++;                 //increment min
             current_time_sec = 0;
-            if (current_time_min % 60 == 0)
+            if (current_time_min % 60 == 0)     //min overflow
             {
-                current_time_hour++;
+                current_time_hour++;            //increment hour
                 current_time_min = 0;
-                if (current_time_hour % 24 == 0)
+                if (current_time_hour % 24 == 0)//hour overflow
                 {
                     current_time_hour = 0;
                 }
             }
         }
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_RATE_MS);    //delay task 1 sec
     }
 }
