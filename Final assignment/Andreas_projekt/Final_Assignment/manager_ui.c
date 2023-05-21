@@ -24,21 +24,20 @@
 #include "emp_type.h"
 #include "tmodel.h"
 #include "math.h"
+#include "file.h"
+#include "string.h"
 
-#include "FreeRTOS.h"
-#include "queue.h"
-#include "semphr.h"
+// Ice Cream parts
 #include "uart0.h"
 #include "lcd.h"
 #include "icecream.h"
 #include "manager_ui.h"
-#include "file.h"
-#include "string2.h"
 
-// TO DO
-//------
-// - Mutex for UART
-// - Print log
+// FreeRTOS
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "semphr.h"
+
 typedef INT8U *FILE;
 /*****************************    Defines    *******************************/
 // Console states
@@ -51,10 +50,8 @@ typedef INT8U *FILE;
 #define CONSOLE_FREQUENCY 5
 #define CONSOLE_TIME 6
 
-// Time seconds
-//-------------
+// When setting the time seconds is by default 0
 #define TIME_SEC 0
-#define MSG_DELAY 800
 
 /*****************************   Constants   *******************************/
 /*****************************   Variables   *******************************/
@@ -64,9 +61,6 @@ extern SemaphoreHandle_t mutex_liquid_base;
 extern SemaphoreHandle_t mutex_churning_time;
 extern SemaphoreHandle_t mutex_time_of_day;
 extern SemaphoreHandle_t mutex_production_time;
-
-// Gloabl
-INT8U inp;
 
 // Churning time for the different flavours
 extern INT8U churning_time_vanilla;
@@ -92,7 +86,7 @@ void logging_init()
 /*****************************************************************************
  *   Input    :
  *   Output   :
- *   Function : Initialize
+ *   Function : Initialize mutexes
  ******************************************************************************/
 {
     mutex_liquid_base = xSemaphoreCreateMutex();
@@ -101,12 +95,13 @@ void logging_init()
     mutex_production_time = xSemaphoreCreateMutex();
 }
 
-INT8U number_length(INT8U number)
-{
-    return floor(log10(abs(number))) + 1;
-}
-
 INT8U receive_input()
+/*****************************************************************************
+ *   Input    :
+ *   Output   : IN8U number entered in UART from PC.
+ *   Function : A multi digit number can be entered from PC. Program is
+ *              continued when ENTER is pressed.
+ ******************************************************************************/
 {
     INT8U str[4];
     INT8U str_length = 0;
@@ -117,18 +112,19 @@ INT8U receive_input()
     // Enter desired input and exist when 'Enter' is pressed
     while (ch != 0x0D)
     {
+        // Receive pressed character and check if the pressed character is the ENTER key (0x0D)
         if (uart0_get_q(&ch) && ch != 0x0D)
         {
+            // Check if the character is a number
             if (ch == '0' || ch == '1' || ch == '2' || ch == '3' || ch == '4' || ch == '5' || ch == '6' || ch == '7' || ch == '8' || ch == '9')
             {
+                // Save number in string and print to UART
                 str[str_length++] = ch;
                 gfprintf(COM1, "%c", ch);
             }
         }
         vTaskDelay(100 / portTICK_RATE_MS);
     }
-
-    INT8U i;
 
     gfprintf(COM1, "\n\r");
 
